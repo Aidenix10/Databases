@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL Data Types Explorer</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        gray: {
+                            850: '#1f2937',
+                            950: '#030712',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar for a polished look */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #030712; }
+        ::-webkit-scrollbar-thumb { background: #374151; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #4b5563; }
+        
+        .glass-card {
+            background: rgba(31, 41, 55, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body class="bg-gray-950 text-gray-300 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- Header Section -->
+    <header class="relative overflow-hidden border-b border-gray-800 bg-gray-950 pt-16 pb-12">
+        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-64 bg-indigo-500/10 blur-[100px] rounded-full pointer-events-none"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <div class="inline-flex items-center justify-center p-3 bg-indigo-500/10 rounded-2xl mb-6 ring-1 ring-indigo-500/30">
+                <i data-lucide="database" class="w-8 h-8 text-indigo-400"></i>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold text-white tracking-tight mb-4">
+                SQL Data Types <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400">Explorer</span>
+            </h1>
+            <p class="text-lg text-gray-400 max-w-2xl mx-auto">
+                A comprehensive guide to standard data types across major SQL relational database management systems. Discover definitions, use cases, and limitations.
+            </p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
+        
+        <!-- Controls: Search & Filter -->
+        <div class="flex flex-col md:flex-row justify-between items-center gap-6 mb-10 sticky top-4 z-20 glass-card p-4 rounded-2xl border border-gray-800 shadow-xl">
+            
+            <!-- Category Filters -->
+            <div class="flex flex-wrap gap-2 w-full md:w-auto" id="filter-container">
+                <button onclick="setFilter('All')" class="filter-btn active px-4 py-2 rounded-lg text-sm font-medium transition-colors bg-indigo-600 text-white shadow-md shadow-indigo-900/20">All</button>
+                <button onclick="setFilter('Numeric')" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium transition-colors bg-gray-800 text-gray-300 hover:bg-gray-700 hover:text-white">Numeric</button>
+                <button onclick="setFilter('String')" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium transition-colors bg-gray-800 text-gray-300 hover:bg-gray-700 hover:text-white">String</button>
+                <button onclick="setFilter('Date/Time')" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium transition-colors bg-gray-800 text-gray-300 hover:bg-gray-700 hover:text-white">Date/Time</button>
+                <button onclick="setFilter('Binary')" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium transition-colors bg-gray-800 text-gray-300 hover:bg-gray-700 hover:text-white">Binary</button>
+                <button onclick="setFilter('Logical')" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium transition-colors bg-gray-800 text-gray-300 hover:bg-gray-700 hover:text-white">Logical</button>
+                <button onclick="setFilter('Special')" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium transition-colors bg-gray-800 text-gray-300 hover:bg-gray-700 hover:text-white">Special</button>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="relative w-full md:w-72 relative">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <i data-lucide="search" class="h-5 w-5 text-gray-500"></i>
+                </div>
+                <input type="text" id="search-input" onkeyup="handleSearch()" placeholder="Search types, features..." 
+                    class="block w-full pl-10 pr-3 py-2 border border-gray-700 rounded-lg leading-5 bg-gray-900 text-gray-300 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors">
+            </div>
+        </div>
+
+        <!-- Data Grid -->
+        <div id="data-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Cards will be injected here by JavaScript -->
+        </div>
+
+        <!-- No Results State -->
+        <div id="no-results" class="hidden text-center py-20">
+            <i data-lucide="file-question" class="mx-auto h-12 w-12 text-gray-600 mb-4"></i>
+            <h3 class="text-lg font-medium text-white">No data types found</h3>
+            <p class="text-gray-400 mt-2">Try adjusting your search or category filter.</p>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-800 bg-gray-900 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p class="text-sm text-gray-500">
+                Note: Exact storage limits and specific behaviors can vary slightly depending on the specific database system (MySQL, PostgreSQL, SQL Server, etc.).
+            </p>
+            <div class="flex items-center gap-2 text-sm font-medium text-gray-400">
+                <span>SQL Reference</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Data and Logic -->
+    <script>
+        const sqlData = [
+            {
+                category: 'Numeric',
+                type: 'INT / INTEGER',
+                definition: 'Standard whole number.',
+                features: 'Fast for primary keys, counting, and indexing.',
+                limitations: 'Range is typically limited to -2.14B to 2.14B (4 bytes). Cannot store decimals.',
+                color: 'blue'
+            },
+            {
+                category: 'Numeric',
+                type: 'TINYINT / SMALLINT / BIGINT',
+                definition: 'Smaller or larger whole numbers.',
+                features: 'Space optimization (TINYINT for flags/booleans) or massive identifiers (BIGINT).',
+                limitations: 'TINYINT max is 255. BIGINT takes 8 bytes (uses more memory).',
+                color: 'blue'
+            },
+            {
+                category: 'Numeric',
+                type: 'DECIMAL(p,s) / NUMERIC',
+                definition: 'Exact, fixed-point decimal numbers. p=total digits, s=decimals.',
+                features: 'Perfect for financial data (currency). No rounding errors.',
+                limitations: 'Slower calculations compared to FLOAT. Uses more storage space than approximate types.',
+                color: 'blue'
+            },
+            {
+                category: 'Numeric',
+                type: 'FLOAT / REAL',
+                definition: 'Approximate, floating-point numbers.',
+                features: 'Ideal for scientific calculations or where massive range is needed but extreme precision isn\'t.',
+                limitations: 'Prone to rounding errors. Unsuitable for financial data or precise equality comparisons (=).',
+                color: 'blue'
+            },
+            {
+                category: 'String',
+                type: 'CHAR(n)',
+                definition: 'Fixed-length character string.',
+                features: 'Faster performance for data that is always the same length (e.g., State abbreviations, MD5 hashes).',
+                limitations: 'Wastes storage if data varies in length (pads unused space with blanks). Strict length limit.',
+                color: 'emerald'
+            },
+            {
+                category: 'String',
+                type: 'VARCHAR(n)',
+                definition: 'Variable-length character string.',
+                features: 'Highly efficient for general text (names, emails). Only uses storage for the actual string length + overhead.',
+                limitations: 'Slight performance overhead for length calculation. Has a maximum limit (varies by DB, e.g., 65,535 bytes).',
+                color: 'emerald'
+            },
+            {
+                category: 'String',
+                type: 'TEXT',
+                definition: 'Extremely long character strings.',
+                features: 'Used for blog posts, descriptions, or JSON payloads. Can store gigabytes of data.',
+                limitations: 'Cannot be easily fully indexed. Slower to query and sort compared to VARCHAR.',
+                color: 'emerald'
+            },
+            {
+                category: 'Date/Time',
+                type: 'DATE',
+                definition: 'Calendar date (YYYY-MM-DD).',
+                features: 'Built-in date validation and date-math functions.',
+                limitations: 'Does not store time.',
+                color: 'purple'
+            },
+            {
+                category: 'Date/Time',
+                type: 'TIME',
+                definition: 'Time of day (HH:MM:SS).',
+                features: 'Good for business hours, durations, or event triggers.',
+                limitations: 'Does not store the date.',
+                color: 'purple'
+            },
+            {
+                category: 'Date/Time',
+                type: 'DATETIME',
+                definition: 'Date and time combined.',
+                features: 'Standard timeline tracking (e.g., account creation time).',
+                limitations: 'Not intrinsically timezone-aware in all systems.',
+                color: 'purple'
+            },
+            {
+                category: 'Date/Time',
+                type: 'TIMESTAMP',
+                definition: 'Unix timestamp (seconds since 1970).',
+                features: 'Often automatically updates on row modification. Highly useful for standardizing times across timezones.',
+                limitations: 'The Year 2038 problem: In many 32-bit systems, it maxes out at Jan 19, 2038.',
+                color: 'purple'
+            },
+            {
+                category: 'Binary',
+                type: 'BLOB / VARBINARY',
+                definition: 'Binary Large Object (0s and 1s).',
+                features: 'Stores files, images, PDFs, or compiled code directly in the database.',
+                limitations: 'Dramatically bloats database size. Cannot be searched using text operators (LIKE). Usually better to store files in cloud storage and save the URL in the DB.',
+                color: 'amber'
+            },
+            {
+                category: 'Logical',
+                type: 'BOOLEAN / BIT',
+                definition: 'True/False or 1/0 values.',
+                features: 'Highly efficient storage for binary states (is_active, has_paid).',
+                limitations: 'In many databases (like MySQL), BOOLEAN isn\'t a true type but merely a synonym for TINYINT(1).',
+                color: 'rose'
+            },
+            {
+                category: 'Special',
+                type: 'ENUM / SET',
+                definition: 'A string object chosen from a predefined list.',
+                features: 'Enforces strict data integrity at the database level (e.g., status must be "Pending", "Active", or "Closed").',
+                limitations: 'Hard to update the schema if the list of allowed values changes frequently. Not universally supported across all SQL dialects.',
+                color: 'fuchsia'
+            }
+        ];
+
+        let currentFilter = 'All';
+        let searchQuery = '';
+
+        const badgeColors = {
+            blue: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
+            emerald: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
+            purple: 'bg-purple-500/10 text-purple-400 border-purple-500/20',
+            amber: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
+            rose: 'bg-rose-500/10 text-rose-400 border-rose-500/20',
+            fuchsia: 'bg-fuchsia-500/10 text-fuchsia-400 border-fuchsia-500/20',
+        };
+
+        const iconMap = {
+            'Numeric': 'hash',
+            'String': 'type',
+            'Date/Time': 'clock',
+            'Binary': 'binary',
+            'Logical': 'toggle-right',
+            'Special': 'star'
+        };
+
+        function renderCards() {
+            const grid = document.getElementById('data-grid');
+            const noResults = document.getElementById('no-results');
+            grid.innerHTML = '';
+
+            const filteredData = sqlData.filter(item => {
+                const matchesFilter = currentFilter === 'All' || item.category === currentFilter;
+                const searchString = `${item.type} ${item.definition} ${item.features} ${item.limitations}`.toLowerCase();
+                const matchesSearch = searchString.includes(searchQuery);
+                return matchesFilter && matchesSearch;
+            });
+
+            if (filteredData.length === 0) {
+                grid.classList.add('hidden');
+                noResults.classList.remove('hidden');
+            } else {
+                grid.classList.remove('hidden');
+                noResults.classList.add('hidden');
+
+                filteredData.forEach((item, index) => {
+                    // Highlight bold text from markdown (e.g., **Perfect for financial data**)
+                    const formatFeatures = item.features.replace(/\*\*(.*?)\*\*/g, '<strong class="text-white">$1</strong>');
+                    const formatLimitations = item.limitations.replace(/\*\*(.*?)\*\*/g, '<strong class="text-white">$1</strong>');
+
+                    const card = document.createElement('div');
+                    card.className = 'group flex flex-col bg-gray-900 rounded-2xl border border-gray-800 p-6 hover:border-indigo-500/50 hover:shadow-lg hover:shadow-indigo-500/10 transition-all duration-300';
+                    card.style.animation = `fadeIn 0.4s ease-out ${index * 0.05}s both`;
+                    
+                    card.innerHTML = `
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-mono text-lg font-bold text-white tracking-tight break-words pr-4">${item.type}</h3>
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${badgeColors[item.color]} whitespace-nowrap">
+                                <i data-lucide="${iconMap[item.category]}" class="w-3.5 h-3.5"></i>
+                                ${item.category}
+                            </span>
+                        </div>
+                        
+                        <p class="text-gray-400 text-sm mb-6 pb-6 border-b border-gray-800 flex-grow">
+                            ${item.definition}
+                        </p>
+                        
+                        <div class="space-y-4 text-sm mt-auto">
+                            <div>
+                                <div class="flex items-center gap-2 mb-1.5 text-gray-300 font-medium">
+                                    <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-500"></i>
+                                    Best For
+                                </div>
+                                <p class="text-gray-500 pl-6 leading-relaxed">${formatFeatures}</p>
+                            </div>
+                            
+                            <div>
+                                <div class="flex items-center gap-2 mb-1.5 text-gray-300 font-medium">
+                                    <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-500"></i>
+                                    Limitations
+                                </div>
+                                <p class="text-gray-500 pl-6 leading-relaxed">${formatLimitations}</p>
+                            </div>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+            }
+            
+            // Re-initialize Lucide icons for new DOM elements
+            lucide.createIcons();
+        }
+
+        function setFilter(category) {
+            currentFilter = category;
+            
+            // Update button styles
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => {
+                if (btn.innerText === category) {
+                    btn.className = 'filter-btn active px-4 py-2 rounded-lg text-sm font-medium transition-colors bg-indigo-600 text-white shadow-md shadow-indigo-900/20';
+                } else {
+                    btn.className = 'filter-btn px-4 py-2 rounded-lg text-sm font-medium transition-colors bg-gray-800 text-gray-300 hover:bg-gray-700 hover:text-white';
+                }
+            });
+
+            renderCards();
+        }
+
+        function handleSearch() {
+            searchQuery = document.getElementById('search-input').value.toLowerCase();
+            renderCards();
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCards();
+        });
+    </script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</body>
+</html>
