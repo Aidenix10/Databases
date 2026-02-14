@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL Troubleshooting: Data Retrieval Queries</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            color: #1f2937;
+        }
+        .code-font {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .sql-keyword { color: #7c3aed; font-weight: bold; } /* Purple */
+        .sql-func { color: #db2777; font-weight: bold; } /* Pink */
+        .sql-col { color: #059669; } /* Green */
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-4xl mx-auto space-y-8">
+        
+        <!-- Header -->
+        <header class="bg-white p-8 rounded-2xl shadow-sm border border-gray-200">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2">Troubleshooting SQL Queries</h1>
+            <p class="text-gray-600 text-lg">Understanding the difference between Syntax Errors and Runtime Errors in data retrieval.</p>
+            <div class="mt-4 inline-block bg-blue-100 text-blue-800 text-sm px-3 py-1 rounded-full">Based on OCR Document 5.2</div>
+        </header>
+
+        <!-- Core Definitions Grid -->
+        <section class="grid md:grid-cols-2 gap-6">
+            <!-- Runtime Errors -->
+            <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-orange-500">
+                <h2 class="text-xl font-bold mb-3 flex items-center">
+                    <svg class="w-6 h-6 mr-2 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                    Runtime Logic Errors
+                </h2>
+                <p class="text-gray-600 mb-4">The code is written with valid words, but the logic is impossible for the database to execute.</p>
+                <div class="bg-gray-50 p-3 rounded code-font text-sm border border-gray-200">
+                    <span class="text-red-600 font-bold">Error:</span> Column is invalid in the select list because it is not contained in either an aggregate function or the GROUP BY clause.
+                </div>
+            </div>
+
+            <!-- Syntax Errors -->
+            <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-red-500">
+                <h2 class="text-xl font-bold mb-3 flex items-center">
+                    <svg class="w-6 h-6 mr-2 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                    Syntax Errors
+                </h2>
+                <p class="text-gray-600 mb-4">The code violates the grammatical rules of the language (spelling or structure).</p>
+                <div class="bg-gray-50 p-3 rounded code-font text-sm border border-gray-200">
+                    <span class="text-red-600 font-bold">Error:</span> Incorrect syntax near 'GROUPBY'.
+                </div>
+            </div>
+        </section>
+
+        <!-- Scenario 1: The Group By Rule -->
+        <section class="bg-white rounded-xl shadow-sm overflow-hidden">
+            <div class="p-6 border-b border-gray-100">
+                <h2 class="text-2xl font-bold text-gray-800">Scenario 1: The Aggregation Rule</h2>
+                <p class="text-gray-600 mt-2">When using <code>GROUP BY</code>, every column in your <code>SELECT</code> statement must be either aggregated (like COUNT) or listed in the group clause.</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2">
+                <!-- Bad Code -->
+                <div class="p-6 bg-red-50 border-r border-red-100">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="font-bold text-red-700">❌ Runtime Error</span>
+                    </div>
+                    <pre class="code-font text-sm text-gray-800 bg-white p-4 rounded border border-red-200 shadow-sm">
+<span class="sql-keyword">SELECT</span> <span class="sql-col">LastName</span>, <span class="text-red-600 font-bold border-b-2 border-red-500">FirstName</span>, <span class="sql-func">COUNT</span>(OrderID)
+<span class="sql-keyword">FROM</span> Customers
+<span class="sql-keyword">GROUP BY</span> <span class="sql-col">LastName</span>
+<span class="sql-keyword">HAVING</span> <span class="sql-func">COUNT</span>(OrderID) >= 5</pre>
+                    <p class="mt-4 text-sm text-red-800 bg-red-100 p-3 rounded">
+                        <strong>Why it fails:</strong> The database doesn't know which "FirstName" to display for the "LastName" group if there are multiple people with the same last name but different first names.
+                    </p>
+                </div>
+
+                <!-- Good Code -->
+                <div class="p-6 bg-green-50">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="font-bold text-green-700">✅ Corrected Code</span>
+                    </div>
+                    <pre class="code-font text-sm text-gray-800 bg-white p-4 rounded border border-green-200 shadow-sm">
+<span class="sql-keyword">SELECT</span> <span class="sql-col">LastName</span>, <span class="text-green-600 font-bold">FirstName</span>, <span class="sql-func">COUNT</span>(OrderID)
+<span class="sql-keyword">FROM</span> Customers
+<span class="sql-keyword">GROUP BY</span> <span class="sql-col">LastName</span>, <span class="text-green-600 font-bold border-b-2 border-green-500">FirstName</span>
+<span class="sql-keyword">HAVING</span> <span class="sql-func">COUNT</span>(OrderID) >= 5</pre>
+                    <p class="mt-4 text-sm text-green-800 bg-green-100 p-3 rounded">
+                        <strong>The Fix:</strong> Add <code>FirstName</code> to the GROUP BY clause. Now we are grouping by unique pairs of names.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Scenario 2: Syntax and Spelling -->
+        <section class="bg-white rounded-xl shadow-sm overflow-hidden">
+            <div class="p-6 border-b border-gray-100">
+                <h2 class="text-2xl font-bold text-gray-800">Scenario 2: Exact Spelling</h2>
+                <p class="text-gray-600 mt-2">SQL keywords cannot be combined. Spaces matter.</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2">
+                 <!-- Bad Code -->
+                 <div class="p-6 bg-red-50 border-r border-red-100">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="font-bold text-red-700">❌ Syntax Error</span>
+                    </div>
+                    <pre class="code-font text-sm text-gray-800 bg-white p-4 rounded border border-red-200 shadow-sm">
+<span class="sql-keyword">SELECT</span> <span class="sql-col">LastName</span>, <span class="sql-col">FirstName</span>
+<span class="sql-keyword">FROM</span> Customers
+<span class="text-red-600 font-bold border-b-2 border-red-500">GROUPBY</span> <span class="sql-col">LastName</span>, <span class="sql-col">FirstName</span></pre>
+                    <p class="mt-4 text-sm text-red-800 bg-red-100 p-3 rounded">
+                        <strong>Why it fails:</strong> "GROUPBY" is not a word in the SQL dictionary. The parser stops here.
+                    </p>
+                </div>
+
+                <!-- Good Code -->
+                <div class="p-6 bg-green-50">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="font-bold text-green-700">✅ Corrected Code</span>
+                    </div>
+                    <pre class="code-font text-sm text-gray-800 bg-white p-4 rounded border border-green-200 shadow-sm">
+<span class="sql-keyword">SELECT</span> <span class="sql-col">LastName</span>, <span class="sql-col">FirstName</span>
+<span class="sql-keyword">FROM</span> Customers
+<span class="text-green-600 font-bold border-b-2 border-green-500"><span class="sql-keyword">GROUP BY</span></span> <span class="sql-col">LastName</span>, <span class="sql-col">FirstName</span></pre>
+                    <p class="mt-4 text-sm text-green-800 bg-green-100 p-3 rounded">
+                        <strong>The Fix:</strong> Add a space. <code>GROUP BY</code> is a two-word clause.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Command Reference Table -->
+        <section class="bg-white rounded-xl shadow-sm p-6">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Command Dictionary</h2>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-gray-50 border-b border-gray-200">
+                            <th class="p-4 font-semibold text-gray-700">Command / Term</th>
+                            <th class="p-4 font-semibold text-gray-700">Description</th>
+                            <th class="p-4 font-semibold text-gray-700">Key Rule</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100">
+                        <tr>
+                            <td class="p-4 code-font font-bold text-purple-700">GROUP BY</td>
+                            <td class="p-4 text-gray-600">Groups rows that have the same values in specified columns into summary rows.</td>
+                            <td class="p-4 text-sm bg-yellow-50 text-yellow-800 rounded">Must include all non-aggregated SELECT columns.</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 code-font font-bold text-purple-700">HAVING</td>
+                            <td class="p-4 text-gray-600">Used to filter groups based on a condition (usually involves an aggregate).</td>
+                            <td class="p-4 text-sm text-gray-600">Applied <strong>after</strong> grouping. Does NOT require a WHERE clause.</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 code-font font-bold text-pink-600">COUNT()</td>
+                            <td class="p-4 text-gray-600">An aggregate function that returns the number of rows that match a specified criterion.</td>
+                            <td class="p-4 text-sm text-gray-600">Does not need to be in the GROUP BY clause.</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 code-font font-bold text-gray-700">Semicolons (;)</td>
+                            <td class="p-4 text-gray-600">Standard character to terminate a SQL statement.</td>
+                            <td class="p-4 text-sm text-gray-600">Often optional in single-statement environments (distractor in PDF).</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 code-font font-bold text-gray-700">Schema</td>
+                            <td class="p-4 text-gray-600">The container/namespace for database objects (e.g., <code>dbo.Customers</code>).</td>
+                            <td class="p-4 text-sm text-gray-600">Not required if the default schema is implied.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </div>
+
+</body>
+</html>
