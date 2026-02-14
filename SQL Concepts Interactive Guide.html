@@ -82,8 +82,9 @@
                         <span class="px-2 py-1 bg-sky-50 text-sky-600 text-xs font-bold uppercase rounded">Exclusive</span>
                     </div>
                     <div class="space-y-3">
-                        <p class="font-medium text-slate-800">Keep only rows that match in <strong>both</strong> lists.</p>
-                        <p class="text-sm text-slate-600 leading-relaxed">
+                        <p class="font-medium text-slate-800">Action: Keep rows ONLY if they appear in <strong>BOTH</strong> lists.</p>
+                        <p class="text-sm text-slate-500 italic">Note: JOIN and INNER JOIN are the same.</p>
+                        <p class="text-sm text-slate-600 leading-relaxed mt-2">
                             <strong>The Analogy:</strong> "The Mutual Friends Party." You only get in if you are on the Left List <strong>AND</strong> the Right List.
                         </p>
                     </div>
@@ -124,7 +125,7 @@
                         <span class="px-2 py-1 bg-pink-50 text-pink-600 text-xs font-bold uppercase rounded">Everyone</span>
                     </div>
                     <div class="space-y-3">
-                        <p class="font-medium text-slate-800">Keep everything from both lists.</p>
+                        <p class="font-medium text-slate-800">Action: Keep rows if they appear in <strong>ANY</strong> list (Left <strong>OR</strong> Right).</p>
                         <p class="text-sm text-slate-600 leading-relaxed">
                             <strong>The Analogy:</strong> "Everyone is Invited." Left comes, Right comes. If they match, they stand together. If not, they stand alone.
                         </p>
@@ -375,40 +376,40 @@
                 <div class="p-6 bg-emerald-50 rounded-2xl border border-emerald-100">
                     <h4 class="font-bold text-emerald-800 text-lg mb-3">Use <span class="uppercase">Union</span> when:</h4>
                     <p class="text-sm text-slate-700 mb-2">You need a <span class="font-bold">Clean List</span>.</p>
-                    <ul class="list-disc list-inside text-sm text-slate-600 space-y-1">
-                        <li><strong>Example:</strong> Mailing Lists.</li>
-                        <li><strong>Why?</strong> You don't want to email the same person twice just because they signed up twice.</li>
-                    </ul>
+                    <div class="text-sm text-slate-600 space-y-2">
+                        <p><strong>Example:</strong> Mailing Lists.</p>
+                        <p><strong>Why?</strong> You don't want to email the same person twice just because they signed up twice.</p>
+                    </div>
                 </div>
 
                 <!-- Use Union ALL When -->
                 <div class="p-6 bg-emerald-50 rounded-2xl border border-emerald-100">
                     <h4 class="font-bold text-emerald-800 text-lg mb-3">Use <span class="uppercase">Union All</span> when:</h4>
                     <p class="text-sm text-slate-700 mb-2">You need <span class="font-bold">Total Accuracy</span> or Speed.</p>
-                    <ul class="list-disc list-inside text-sm text-slate-600 space-y-1">
-                        <li><strong>Example:</strong> Bank Statements.</li>
-                        <li><strong>Why?</strong> If you deposit $5 twice, you want to see it twice. You don't want the bank to merge them!</li>
-                    </ul>
+                    <div class="text-sm text-slate-600 space-y-2">
+                        <p><strong>Example:</strong> Bank Statements.</p>
+                        <p><strong>Why?</strong> If you deposit $5 twice, you want to see it twice. You don't want the bank to merge them!</p>
+                    </div>
                 </div>
 
                 <!-- Use Intersect When -->
                 <div class="p-6 bg-blue-50 rounded-2xl border border-blue-100">
                     <h4 class="font-bold text-blue-800 text-lg mb-3">Use <span class="uppercase">Intersect</span> when:</h4>
                     <p class="text-sm text-slate-700 mb-2">You need to find <span class="font-bold">Common Ground</span>.</p>
-                    <ul class="list-disc list-inside text-sm text-slate-600 space-y-1">
-                        <li><strong>Example:</strong> Marketing.</li>
-                        <li><strong>Why?</strong> "Which customers bought an iPhone AND an iPad?" You don't care how many, just who.</li>
-                    </ul>
+                    <div class="text-sm text-slate-600 space-y-2">
+                        <p><strong>Example:</strong> Marketing.</p>
+                        <p><strong>Why?</strong> "Which customers bought an iPhone AND an iPad?" You don't care how many, just who.</p>
+                    </div>
                 </div>
 
                 <!-- Use Intersect ALL When -->
                 <div class="p-6 bg-blue-50 rounded-2xl border border-blue-100">
                     <h4 class="font-bold text-blue-800 text-lg mb-3">Use <span class="uppercase">Intersect All</span> when:</h4>
                     <p class="text-sm text-slate-700 mb-2">You need <span class="font-bold">Inventory Matching</span>.</p>
-                    <ul class="list-disc list-inside text-sm text-slate-600 space-y-1">
-                        <li><strong>Example:</strong> Card Trading.</li>
-                        <li><strong>Why?</strong> I have 2 Charizards, you have 3. We have exactly 2 cards in common to trade. Quantity matters.</li>
-                    </ul>
+                    <div class="text-sm text-slate-600 space-y-2">
+                        <p><strong>Example:</strong> Card Trading.</p>
+                        <p><strong>Why?</strong> I have 2 Charizards, you have 3. We have exactly 2 cards in common to trade. Quantity matters.</p>
+                    </div>
                 </div>
 
             </div>
