@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mastering SQL: The UPDATE Statement & DML</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            color: #1f2937;
+        }
+        .code-font {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .sql-keyword { color: #d946ef; font-weight: bold; } /* Pink/Purple */
+        .sql-func { color: #3b82f6; } /* Blue */
+        .sql-string { color: #10b981; } /* Green */
+        .sql-number { color: #f59e0b; } /* Orange */
+        
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-5xl mx-auto">
+        
+        <!-- Header -->
+        <header class="mb-10 text-center">
+            <h1 class="text-4xl font-bold text-slate-800 mb-2">SQL Concepts: <span class="text-blue-600">The UPDATE Statement</span></h1>
+            <p class="text-slate-600">Based on the "Construct and analyze UPDATE statements" curriculum.</p>
+        </header>
+
+        <!-- Navigation / Quick Links -->
+        <nav class="flex flex-wrap gap-4 justify-center mb-10">
+            <a href="#syntax" class="px-4 py-2 bg-white rounded-full shadow hover:shadow-md transition text-sm font-semibold text-slate-700"><i class="fas fa-code mr-2 text-blue-500"></i>Syntax Anatomy</a>
+            <a href="#logic" class="px-4 py-2 bg-white rounded-full shadow hover:shadow-md transition text-sm font-semibold text-slate-700"><i class="fas fa-filter mr-2 text-purple-500"></i>WHERE Logic</a>
+            <a href="#math" class="px-4 py-2 bg-white rounded-full shadow hover:shadow-md transition text-sm font-semibold text-slate-700"><i class="fas fa-calculator mr-2 text-green-500"></i>Calculations</a>
+            <a href="#categories" class="px-4 py-2 bg-white rounded-full shadow hover:shadow-md transition text-sm font-semibold text-slate-700"><i class="fas fa-layer-group mr-2 text-orange-500"></i>Language Categories</a>
+        </nav>
+
+        <!-- SECTION 1: SYNTAX ANATOMY -->
+        <section id="syntax" class="mb-12">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden border-l-4 border-blue-500">
+                <div class="p-6">
+                    <h2 class="text-2xl font-bold mb-4 flex items-center">
+                        <span class="bg-blue-100 text-blue-600 p-2 rounded-lg mr-3"><i class="fas fa-pen"></i></span>
+                        The UPDATE Statement
+                    </h2>
+                    <p class="text-gray-600 mb-6">
+                        An <span class="font-bold">UPDATE</span> statement is used to modify existing records in a table. It requires specific clauses to function correctly without destroying data.
+                    </p>
+
+                    <!-- Interactive Syntax Breakdown -->
+                    <div class="bg-slate-900 rounded-lg p-6 text-white code-font text-lg shadow-inner relative group">
+                        <div class="absolute top-4 right-4 text-xs text-slate-500">Basic Syntax</div>
+                        <div>
+                            <span class="sql-keyword">UPDATE</span> <span class="text-white border-b-2 border-dashed border-gray-600 tooltip" title="The table to modify">Students</span>
+                        </div>
+                        <div>
+                            <span class="sql-keyword">SET</span> <span class="text-blue-300">FirstName</span> = <span class="sql-string">'Kayden'</span>
+                        </div>
+                        <div>
+                            <span class="sql-keyword">WHERE</span> <span class="text-blue-300">FirstName</span> = <span class="sql-string">'Benjamin'</span>;
+                        </div>
+                    </div>
+
+                    <!-- Component Table -->
+                    <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h3 class="font-bold text-blue-800 mb-2">UPDATE [Table]</h3>
+                            <p class="text-sm text-blue-900">Specifies the target table. You cannot update multiple tables in a single standard UPDATE clause.</p>
+                        </div>
+                        <div class="bg-purple-50 p-4 rounded-lg">
+                            <h3 class="font-bold text-purple-800 mb-2">SET [Col] = [Val]</h3>
+                            <p class="text-sm text-purple-900">Determines which column changes and what the new value will be.</p>
+                        </div>
+                        <div class="bg-orange-50 p-4 rounded-lg">
+                            <h3 class="font-bold text-orange-800 mb-2">WHERE [Cond]</h3>
+                            <p class="text-sm text-orange-900">Crucial. Defines criteria. Without this, <strong>every row</strong> in the table updates.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: LOGIC & FILTERING -->
+        <section id="logic" class="mb-12">
+            <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-purple-500">
+                <h2 class="text-2xl font-bold mb-4 flex items-center">
+                    <span class="bg-purple-100 text-purple-600 p-2 rounded-lg mr-3"><i class="fas fa-filter"></i></span>
+                    Targeting Specific Data (WHERE Clause)
+                </h2>
+                <p class="mb-4 text-gray-700">The <code>WHERE</code> clause acts as a filter. If the filter is specific (using <code>AND</code>), fewer rows are updated.</p>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Scenario -->
+                    <div>
+                        <h4 class="font-bold text-gray-500 uppercase text-xs mb-2">Scenario: Update Blue Shirts Only</h4>
+                        <div class="bg-slate-800 p-4 rounded-md text-white code-font text-sm mb-4">
+                            <span class="sql-keyword">UPDATE</span> Products<br>
+                            <span class="sql-keyword">SET</span> Price = <span class="sql-number">49.99</span><br>
+                            <span class="sql-keyword">WHERE</span> Clothing = <span class="sql-string">'Shirt'</span> <br>
+                            <span class="sql-keyword">AND</span> Color = <span class="sql-string">'Blue'</span>;
+                        </div>
+                        <p class="text-sm text-gray-600 italic">
+                            Result: Only <strong>1</strong> item updates because only one item is both a 'Shirt' AND 'Blue'.
+                        </p>
+                    </div>
+
+                    <!-- Visual Data Representation -->
+                    <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                        <h4 class="font-bold text-gray-500 uppercase text-xs mb-2">Database Table State</h4>
+                        <table class="w-full text-sm text-left">
+                            <thead class="bg-gray-200 text-gray-700">
+                                <tr>
+                                    <th class="p-2">Clothing</th>
+                                    <th class="p-2">Color</th>
+                                    <th class="p-2">Price</th>
+                                    <th class="p-2">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-300">
+                                <tr class="opacity-50">
+                                    <td class="p-2">Shirt</td>
+                                    <td class="p-2">Red</td>
+                                    <td class="p-2">44.99</td>
+                                    <td class="p-2 text-xs">Skipped</td>
+                                </tr>
+                                <tr class="bg-green-100 font-bold text-green-800">
+                                    <td class="p-2">Shirt</td>
+                                    <td class="p-2">Blue</td>
+                                    <td class="p-2">49.99 <i class="fas fa-check ml-1"></i></td>
+                                    <td class="p-2 text-xs">Updated</td>
+                                </tr>
+                                <tr class="opacity-50">
+                                    <td class="p-2">Pants</td>
+                                    <td class="p-2">Blue</td>
+                                    <td class="p-2">44.99</td>
+                                    <td class="p-2 text-xs">Skipped</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: MATHEMATICAL UPDATES -->
+        <section id="math" class="mb-12">
+            <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-green-500">
+                <h2 class="text-2xl font-bold mb-4 flex items-center">
+                    <span class="bg-green-100 text-green-600 p-2 rounded-lg mr-3"><i class="fas fa-percent"></i></span>
+                    Mathematical Operations
+                </h2>
+                <p class="mb-4 text-gray-700">You can use math within the <code>SET</code> clause to modify values relative to their current state.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Correct Way -->
+                    <div class="border border-green-200 rounded-lg p-4 bg-green-50">
+                        <h3 class="text-green-800 font-bold mb-2"><i class="fas fa-check-circle mr-2"></i>Correct: 10% Increase</h3>
+                        <div class="code-font text-sm bg-white p-3 rounded border border-green-200 mb-2">
+                            <span class="sql-keyword">UPDATE</span> Park <br>
+                            <span class="sql-keyword">SET</span> Ticket = Ticket * <span class="sql-number">1.1</span>
+                        </div>
+                        <ul class="list-disc list-inside text-sm text-green-900 space-y-1">
+                            <li>Multiplies current price by 1.1 (110%).</li>
+                            <li>Correct syntax order (`UPDATE Table`).</li>
+                            <li>References the column (`Ticket`) to get the base value.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Incorrect Ways -->
+                    <div class="border border-red-200 rounded-lg p-4 bg-red-50">
+                        <h3 class="text-red-800 font-bold mb-2"><i class="fas fa-times-circle mr-2"></i>Common Errors</h3>
+                        <div class="space-y-3">
+                            <div>
+                                <div class="code-font text-xs bg-white p-2 rounded border border-red-200 text-red-500 line-through">
+                                    SET Ticket = .10
+                                </div>
+                                <p class="text-xs text-red-800 mt-1"><strong>Error:</strong> Sets price to 10 cents (or 10% of value), not an increase.</p>
+                            </div>
+                            <div>
+                                <div class="code-font text-xs bg-white p-2 rounded border border-red-200 text-red-500 line-through">
+                                    SET Ticket = increase 10%
+                                </div>
+                                <p class="text-xs text-red-800 mt-1"><strong>Error:</strong> SQL cannot parse natural language phrases like "increase".</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: SQL CATEGORIES -->
+        <section id="categories" class="mb-12">
+            <h2 class="text-2xl font-bold mb-6 text-slate-800">Categorizing SQL Commands</h2>
+            <p class="text-slate-600 mb-6">SQL commands are grouped by their function. Understanding these categories is essential for database administration.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                
+                <!-- DML -->
+                <div class="bg-white rounded-lg shadow-md hover:shadow-xl transition duration-300 overflow-hidden">
+                    <div class="bg-blue-600 text-white p-3 text-center font-bold">DML</div>
+                    <div class="p-4">
+                        <h3 class="text-center font-bold text-gray-700 mb-2">Data Manipulation</h3>
+                        <p class="text-xs text-center text-gray-500 mb-4">Managing data <em>inside</em> tables.</p>
+                        <ul class="space-y-2 text-sm text-gray-700 font-mono text-center">
+                            <li class="bg-blue-50 py-1 rounded">UPDATE</li>
+                            <li class="bg-blue-50 py-1 rounded">INSERT</li>
+                            <li class="bg-blue-50 py-1 rounded">DELETE</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- DQL -->
+                <div class="bg-white rounded-lg shadow-md hover:shadow-xl transition duration-300 overflow-hidden">
+                    <div class="bg-teal-500 text-white p-3 text-center font-bold">DQL</div>
+                    <div class="p-4">
+                        <h3 class="text-center font-bold text-gray-700 mb-2">Data Query</h3>
+                        <p class="text-xs text-center text-gray-500 mb-4">Retrieving data.</p>
+                        <ul class="space-y-2 text-sm text-gray-700 font-mono text-center">
+                            <li class="bg-teal-50 py-1 rounded">SELECT</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- DDL -->
+                <div class="bg-white rounded-lg shadow-md hover:shadow-xl transition duration-300 overflow-hidden">
+                    <div class="bg-indigo-600 text-white p-3 text-center font-bold">DDL</div>
+                    <div class="p-4">
+                        <h3 class="text-center font-bold text-gray-700 mb-2">Data Definition</h3>
+                        <p class="text-xs text-center text-gray-500 mb-4">Defining the structure (schema).</p>
+                        <ul class="space-y-2 text-sm text-gray-700 font-mono text-center">
+                            <li class="bg-indigo-50 py-1 rounded">CREATE</li>
+                            <li class="bg-indigo-50 py-1 rounded">ALTER</li>
+                            <li class="bg-indigo-50 py-1 rounded">DROP</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- DCL -->
+                <div class="bg-white rounded-lg shadow-md hover:shadow-xl transition duration-300 overflow-hidden">
+                    <div class="bg-slate-600 text-white p-3 text-center font-bold">DCL</div>
+                    <div class="p-4">
+                        <h3 class="text-center font-bold text-gray-700 mb-2">Data Control</h3>
+                        <p class="text-xs text-center text-gray-500 mb-4">Permissions & Access.</p>
+                        <ul class="space-y-2 text-sm text-gray-700 font-mono text-center">
+                            <li class="bg-slate-100 py-1 rounded">GRANT</li>
+                            <li class="bg-slate-100 py-1 rounded">REVOKE</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+    
+    <footer class="text-center text-gray-400 py-8 text-sm">
+        Generated based on course material: "4.2 Construct and analyze UPDATE statements"
+    </footer>
+
+</body>
+</html>
