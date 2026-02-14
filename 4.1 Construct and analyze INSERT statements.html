@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL INSERT Statements: Construction & Analysis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap');
+        
+        body { font-family: 'Inter', sans-serif; }
+        code, pre { font-family: 'JetBrains Mono', monospace; }
+        
+        .sql-keyword { color: #d946ef; font-weight: bold; } /* Pink-500 */
+        .sql-func { color: #3b82f6; } /* Blue-500 */
+        .sql-string { color: #22c55e; } /* Green-500 */
+        .sql-comment { color: #9ca3af; font-style: italic; } /* Gray-400 */
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <!-- Header -->
+    <header class="bg-indigo-900 text-white py-8 border-b-4 border-indigo-500">
+        <div class="container mx-auto px-4">
+            <h1 class="text-3xl font-bold mb-2"><i class="fas fa-database mr-3"></i>Construct & Analyze INSERT Statements</h1>
+            <p class="text-indigo-200">A guide to SQL data insertion, row value constructors, and data migration strategies.</p>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8 space-y-8">
+
+        <!-- 1. DEFINITIONS & KEY TERMS -->
+        <section id="definitions" class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+            <div class="bg-slate-100 px-6 py-4 border-b border-slate-200">
+                <h2 class="text-xl font-bold text-slate-700">1. Core Concepts & Definitions</h2>
+            </div>
+            <div class="p-6 grid md:grid-cols-2 gap-6">
+                <div>
+                    <h3 class="font-bold text-indigo-700 mb-2">INSERT INTO</h3>
+                    <p class="text-sm text-slate-600 mb-4">The primary SQL command used to add new rows of data into an existing database table.</p>
+                    
+                    <h3 class="font-bold text-indigo-700 mb-2">Row Value Constructors</h3>
+                    <p class="text-sm text-slate-600 mb-4">A method to specify multiple rows of data in a single <code>VALUES</code> clause. This allows you to insert batch data efficiently without writing multiple <code>INSERT</code> statements.</p>
+                </div>
+                <div>
+                    <h3 class="font-bold text-indigo-700 mb-2">Subquery Insertion</h3>
+                    <p class="text-sm text-slate-600 mb-4">Using a <code>SELECT</code> statement inside an <code>INSERT</code> statement to move data dynamically from a source table to a target table.</p>
+
+                    <h3 class="font-bold text-indigo-700 mb-2">Target vs. Source</h3>
+                    <ul class="list-disc list-inside text-sm text-slate-600">
+                        <li><strong>Target:</strong> The table receiving the data (e.g., <code>INSERT INTO target...</code>).</li>
+                        <li><strong>Source:</strong> The table providing the data (e.g., <code>SELECT * FROM source...</code>).</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. TYPES OF INSERT STATEMENTS -->
+        <section class="grid lg:grid-cols-2 gap-8">
+            
+            <!-- Type A: Single Row Specific -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 flex flex-col h-full">
+                <div class="p-6 flex-grow">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-blue-100 text-blue-700 p-2 rounded-lg mr-3"><i class="fas fa-cookie-bite"></i></div>
+                        <h3 class="text-lg font-bold">A. Single Row Insertion</h3>
+                    </div>
+                    <p class="text-slate-600 text-sm mb-4">The standard method to add one record. You must match the columns listed to the values provided.</p>
+                    
+                    <div class="bg-slate-900 text-slate-50 p-4 rounded-lg text-sm mb-4">
+<pre>
+<span class="sql-keyword">INSERT INTO</span> Cookies (Name, CookieID)
+<span class="sql-keyword">VALUES</span> (<span class="sql-string">'Snickerdoodle'</span>, 77);
+</pre>
+                    </div>
+                    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-3 text-xs text-yellow-800">
+                        <strong>Rule:</strong> The order of values in <code>VALUES()</code> must strictly match the order of columns specified after the table name.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Type B: Multi-Row Insertion -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 flex flex-col h-full">
+                <div class="p-6 flex-grow">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-green-100 text-green-700 p-2 rounded-lg mr-3"><i class="fas fa-layer-group"></i></div>
+                        <h3 class="text-lg font-bold">B. Multi-Row Insertion</h3>
+                    </div>
+                    <p class="text-slate-600 text-sm mb-4">Using <strong>Row Value Constructors</strong> to insert multiple records at once.</p>
+                    
+                    <div class="bg-slate-900 text-slate-50 p-4 rounded-lg text-sm mb-4">
+<pre>
+<span class="sql-keyword">INSERT INTO</span> table_name (col1, col2)
+<span class="sql-keyword">VALUES</span> 
+  (value1a, value1b),
+  (value2a, value2b);
+</pre>
+                    </div>
+                    <p class="text-xs text-slate-500">Result: Creates two distinct rows in the database table.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. COPYING DATA: THE CRITICAL DISTINCTION -->
+        <section class="bg-white rounded-xl shadow-sm border border-slate-200">
+            <div class="bg-slate-100 px-6 py-4 border-b border-slate-200 flex justify-between items-center">
+                <h2 class="text-xl font-bold text-slate-700">3. Copying Data: The Distinction</h2>
+                <span class="bg-red-100 text-red-600 text-xs font-bold px-2 py-1 rounded uppercase">Important</span>
+            </div>
+            
+            <div class="p-6">
+                <p class="text-slate-600 mb-6">A common confusion in SQL is distinguishing between appending data to an existing table versus creating a new table from data. The PDF explicitly contrasts these two methods.</p>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="border-b-2 border-slate-200">
+                                <th class="p-4 text-sm font-bold text-slate-500 uppercase tracking-wider w-1/3">Feature</th>
+                                <th class="p-4 text-sm font-bold text-indigo-600 bg-indigo-50 uppercase tracking-wider w-1/3">INSERT INTO ... SELECT</th>
+                                <th class="p-4 text-sm font-bold text-orange-600 bg-orange-50 uppercase tracking-wider w-1/3">SELECT ... INTO</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-sm">
+                            <tr class="border-b border-slate-100">
+                                <td class="p-4 font-semibold text-slate-700">Purpose</td>
+                                <td class="p-4 bg-indigo-50/30">Copies data into an <strong>existing</strong> table.</td>
+                                <td class="p-4 bg-orange-50/30">Copies data into a <strong>new</strong> table.</td>
+                            </tr>
+                            <tr class="border-b border-slate-100">
+                                <td class="p-4 font-semibold text-slate-700">Does Table Exist?</td>
+                                <td class="p-4 bg-indigo-50/30"><span class="text-green-600 font-bold"><i class="fas fa-check"></i> YES</span>. The table must exist beforehand.</td>
+                                <td class="p-4 bg-orange-50/30"><span class="text-red-600 font-bold"><i class="fas fa-times"></i> NO</span>. SQL creates it during execution.</td>
+                            </tr>
+                            <tr class="border-b border-slate-100">
+                                <td class="p-4 font-semibold text-slate-700">Syntax</td>
+                                <td class="p-4 font-mono text-xs bg-slate-800 text-white rounded">
+                                    INSERT INTO target<br>
+                                    SELECT * FROM source;
+                                </td>
+                                <td class="p-4 font-mono text-xs bg-slate-800 text-white rounded">
+                                    SELECT * INTO target<br>
+                                    FROM source;
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-semibold text-slate-700">Keyword Usage</td>
+                                <td class="p-4 bg-indigo-50/30">Does <strong>NOT</strong> use the word <code>VALUES</code>.</td>
+                                <td class="p-4 bg-orange-50/30">Uses the <code>INTO</code> keyword immediately after <code>SELECT *</code>.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. SCENARIO ANALYSIS -->
+        <section class="bg-indigo-50 rounded-xl border border-indigo-100 p-6">
+            <h2 class="text-xl font-bold text-indigo-800 mb-4">4. Practical Scenario Analysis</h2>
+            
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- Scenario 1 -->
+                <div class="bg-white p-4 rounded-lg shadow-sm">
+                    <h4 class="font-bold text-slate-800 mb-2">Scenario: Promoting Customers</h4>
+                    <p class="text-sm text-slate-600 mb-3">
+                        <strong>Goal:</strong> Move all records from <code>potential_customers</code> to the existing <code>customers</code> table.
+                    </p>
+                    <p class="text-xs font-bold text-slate-500 uppercase mb-1">Correct Syntax:</p>
+                    <code class="block bg-slate-100 p-2 rounded text-indigo-700 text-sm font-mono">
+                        INSERT INTO customers<br>
+                        SELECT * FROM potential_customers
+                    </code>
+                    <p class="text-xs text-red-500 mt-2"><strong>Incorrect:</strong> <code>INSERT INTO customers VALUES SELECT...</code> (Do not use VALUES!)</p>
+                </div>
+
+                <!-- Scenario 2 -->
+                <div class="bg-white p-4 rounded-lg shadow-sm">
+                    <h4 class="font-bold text-slate-800 mb-2">Scenario: New Cookie Product</h4>
+                    <p class="text-sm text-slate-600 mb-3">
+                        <strong>Goal:</strong> Add "Snickerdoodle" with ID 77 to the <code>Cookies</code> table.
+                    </p>
+                    <p class="text-xs font-bold text-slate-500 uppercase mb-1">Correct Syntax:</p>
+                    <code class="block bg-slate-100 p-2 rounded text-indigo-700 text-sm font-mono">
+                        INSERT INTO Cookies (Name, CookieID)<br>
+                        VALUES ('Snickerdoodle', 77)
+                    </code>
+                    <p class="text-xs text-green-600 mt-2"><strong>Tip:</strong> Columns matched by position.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-800 text-slate-400 py-6 text-center text-sm">
+        <p>Generated based on "4.1 Construct and analyze INSERT statements OCR.pdf"</p>
+    </footer>
+
+</body>
+</html>
