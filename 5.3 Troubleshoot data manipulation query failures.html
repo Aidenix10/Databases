@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL Data Manipulation & Troubleshooting Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8fafc;
+        }
+        .code-block {
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+        .correct-box {
+            border-left: 4px solid #22c55e;
+            background-color: #f0fdf4;
+        }
+        .error-box {
+            border-left: 4px solid #ef4444;
+            background-color: #fef2f2;
+        }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <!-- Header -->
+    <header class="bg-slate-900 text-white py-8 shadow-lg">
+        <div class="container mx-auto px-4 max-w-4xl">
+            <h1 class="text-3xl font-bold mb-2">Troubleshooting Data Manipulation Queries</h1>
+            <p class="text-slate-300">A guide to syntax, logical operators, and common pitfalls based on the provided course material.</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 max-w-4xl py-8">
+
+        <!-- Introduction to Concepts -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold mb-6 text-slate-800 border-b pb-2 border-slate-200">Core Concepts & Definitions</h2>
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Concept 1 -->
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-slate-100">
+                    <div class="w-10 h-10 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mb-4 font-bold">1</div>
+                    <h3 class="font-bold text-lg mb-2">SELECT INTO</h3>
+                    <p class="text-sm text-slate-600 mb-4">Creates a <span class="font-semibold text-blue-600">NEW table</span> and inserts the result of the query into it.</p>
+                    <div class="text-xs bg-slate-100 p-2 rounded text-slate-500 font-mono">SELECT * INTO NewTable FROM OldTable</div>
+                </div>
+                <!-- Concept 2 -->
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-slate-100">
+                    <div class="w-10 h-10 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center mb-4 font-bold">2</div>
+                    <h3 class="font-bold text-lg mb-2">INSERT INTO</h3>
+                    <p class="text-sm text-slate-600 mb-4">Adds data to an <span class="font-semibold text-indigo-600">EXISTING table</span>. Requires a source of data (VALUES or SELECT).</p>
+                    <div class="text-xs bg-slate-100 p-2 rounded text-slate-500 font-mono">INSERT INTO Table SELECT ...</div>
+                </div>
+                <!-- Concept 3 -->
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-slate-100">
+                    <div class="w-10 h-10 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center mb-4 font-bold">3</div>
+                    <h3 class="font-bold text-lg mb-2">UPDATE</h3>
+                    <p class="text-sm text-slate-600 mb-4">Modifies existing records. Uses <span class="font-semibold text-purple-600">WHERE</span> to filter which rows to update.</p>
+                    <div class="text-xs bg-slate-100 p-2 rounded text-slate-500 font-mono">UPDATE Table SET Col=Val WHERE...</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Syntax Comparison -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold mb-6 text-slate-800 border-b pb-2 border-slate-200">Distinctions & Comparisons</h2>
+            
+            <!-- Comparison 1: New vs Existing Table -->
+            <div class="mb-8">
+                <h3 class="text-xl font-semibold mb-4 text-slate-700">1. Moving Data: <span class="font-mono text-sm bg-slate-200 px-2 py-1 rounded">SELECT INTO</span> vs <span class="font-mono text-sm bg-slate-200 px-2 py-1 rounded">INSERT INTO</span></h3>
+                <div class="bg-white rounded-lg shadow overflow-hidden">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-50 text-slate-600 text-sm uppercase tracking-wider">
+                                <th class="p-4 border-b">Feature</th>
+                                <th class="p-4 border-b">SELECT INTO</th>
+                                <th class="p-4 border-b">INSERT INTO ... SELECT</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-sm divide-y divide-slate-100">
+                            <tr>
+                                <td class="p-4 font-medium text-slate-700">Target Table Status</td>
+                                <td class="p-4 text-blue-600 font-semibold">Must NOT exist (Created automatically)</td>
+                                <td class="p-4 text-indigo-600 font-semibold">Must ALREADY exist</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-medium text-slate-700">Primary Use Case</td>
+                                <td class="p-4">Backups, archiving, temp tables</td>
+                                <td class="p-4">Appending data, merging tables</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-medium text-slate-700">Example Syntax</td>
+                                <td class="p-4 font-mono text-xs">SELECT * INTO NewTbl FROM OldTbl</td>
+                                <td class="p-4 font-mono text-xs">INSERT INTO ExistTbl SELECT * FROM OldTbl</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Comparison 2: Logic Flow -->
+            <div>
+                <h3 class="text-xl font-semibold mb-4 text-slate-700">2. Filtering Logic: <span class="font-mono text-sm bg-slate-200 px-2 py-1 rounded">WHERE</span> vs <span class="font-mono text-sm bg-slate-200 px-2 py-1 rounded">IF</span></h3>
+                <div class="bg-white rounded-lg shadow overflow-hidden">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-50 text-slate-600 text-sm uppercase tracking-wider">
+                                <th class="p-4 border-b">Term</th>
+                                <th class="p-4 border-b">Definition</th>
+                                <th class="p-4 border-b">Context in SQL Queries</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-sm divide-y divide-slate-100">
+                            <tr>
+                                <td class="p-4 font-mono font-bold text-slate-700">WHERE</td>
+                                <td class="p-4">Filters rows <strong>within</strong> a set-based operation.</td>
+                                <td class="p-4 text-green-600">Correct for filtering `UPDATE`, `SELECT`, `DELETE`.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-mono font-bold text-slate-700">IF</td>
+                                <td class="p-4">Control flow statement (Procedural).</td>
+                                <td class="p-4 text-red-600">Incorrect inside an `UPDATE` statement for row filtering.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Troubleshooting Scenarios (From PDF) -->
+        <section>
+            <h2 class="text-2xl font-bold mb-6 text-slate-800 border-b pb-2 border-slate-200">Troubleshooting Scenarios (From PDF)</h2>
+            
+            <!-- Scenario 1 -->
+            <div class="mb-10">
+                <h3 class="text-lg font-bold mb-3 flex items-center gap-2">
+                    <span class="bg-red-100 text-red-600 py-1 px-3 rounded text-sm">Problem 1</span>
+                    Invalid INSERT Syntax
+                </h3>
+                <p class="text-slate-600 mb-4">The command <code class="bg-slate-100 px-1 rounded">INSERT INTO</code> requires a data source definition (either distinct values or a selection).</p>
+                
+                <div class="grid md:grid-cols-2 gap-4">
+                    <!-- Incorrect -->
+                    <div class="error-box p-4 rounded-r-lg">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="font-bold text-red-700 text-sm">INCORRECT (Syntax Error)</span>
+                            <span class="text-red-500">✖</span>
+                        </div>
+                        <pre><code class="language-sql">INSERT INTO Customers 
+FROM CustomersNew; 
+-- Error: Missing SELECT or VALUES</code></pre>
+                        <p class="text-xs text-red-600 mt-2">SQL doesn't know what data to grab from 'CustomersNew'.</p>
+                    </div>
+
+                    <!-- Correct -->
+                    <div class="correct-box p-4 rounded-r-lg">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="font-bold text-green-700 text-sm">CORRECT</span>
+                            <span class="text-green-500">✔</span>
+                        </div>
+                        <pre><code class="language-sql">INSERT INTO Customers (Last, First) 
+SELECT Last, First 
+FROM CustomersNew;</code></pre>
+                        <p class="text-xs text-green-600 mt-2">Explicitly selects columns to insert.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scenario 2 -->
+            <div class="mb-10">
+                <h3 class="text-lg font-bold mb-3 flex items-center gap-2">
+                    <span class="bg-red-100 text-red-600 py-1 px-3 rounded text-sm">Problem 2</span>
+                    Confusing IF for WHERE
+                </h3>
+                <p class="text-slate-600 mb-4">In an `UPDATE` statement, you must use `WHERE` to limit which rows are affected. `IF` is illegal syntax here.</p>
+                
+                <div class="grid md:grid-cols-2 gap-4">
+                    <!-- Incorrect -->
+                    <div class="error-box p-4 rounded-r-lg">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="font-bold text-red-700 text-sm">INCORRECT (Syntax/Runtime Error)</span>
+                            <span class="text-red-500">✖</span>
+                        </div>
+                        <pre><code class="language-sql">UPDATE Customers
+SET Status = 'Gold'
+IF TotalAmount > 10000;</code></pre>
+                        <p class="text-xs text-red-600 mt-2">The 'IF' clause cannot be used to filter rows in an UPDATE statement.</p>
+                    </div>
+
+                    <!-- Correct -->
+                    <div class="correct-box p-4 rounded-r-lg">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="font-bold text-green-700 text-sm">CORRECT</span>
+                            <span class="text-green-500">✔</span>
+                        </div>
+                        <pre><code class="language-sql">UPDATE Customers
+SET Status = 'Gold'
+WHERE TotalAmount > 10000;</code></pre>
+                        <p class="text-xs text-green-600 mt-2">Use WHERE to apply changes only to rows meeting the condition.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scenario 3 -->
+            <div class="mb-10">
+                <h3 class="text-lg font-bold mb-3 flex items-center gap-2">
+                    <span class="bg-green-100 text-green-600 py-1 px-3 rounded text-sm">Problem 3</span>
+                    Valid SELECT INTO
+                </h3>
+                <p class="text-slate-600 mb-4">Unlike <code class="bg-slate-100 px-1 rounded">INSERT</code>, <code class="bg-slate-100 px-1 rounded">SELECT INTO</code> does not require a destination table to exist beforehand.</p>
+                
+                <div class="w-full">
+                    <div class="correct-box p-4 rounded-r-lg">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="font-bold text-green-700 text-sm">CORRECT (Valid Syntax)</span>
+                            <span class="text-green-500">✔</span>
+                        </div>
+                        <pre><code class="language-sql">SELECT * INTO CustomersBackup
+FROM Customers;</code></pre>
+                        <p class="text-xs text-green-600 mt-2">This is perfectly valid SQL (T-SQL specific mostly) to create a new table 'CustomersBackup' with data from 'Customers'.</p>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Footer -->
+        <footer class="mt-12 text-center text-slate-500 text-sm border-t pt-8 pb-8">
+            <p>Generated based on "5.3 Troubleshoot data manipulation query failures"</p>
+        </footer>
+
+    </main>
+
+</body>
+</html>
