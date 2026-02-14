@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BDO Credit Card Guide with Dictionary</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+        .container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #003087; /* BDO Blue */
+            text-align: center;
+            border-bottom: 3px solid #ffb700; /* BDO Yellow accent */
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #003087;
+            margin-top: 40px;
+            border-left: 5px solid #ffb700;
+            padding-left: 15px;
+        }
+        h3 {
+            color: #444;
+            margin-top: 25px;
+            font-weight: 600;
+        }
+        
+        /* Dictionary Styles */
+        .dictionary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+        .term-card {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            transition: transform 0.2s;
+        }
+        .term-card:hover {
+            transform: translateY(-3px);
+            border-color: #003087;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+        .term-title {
+            color: #d32f2f;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+            font-size: 1.1em;
+        }
+        .term-def {
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.95em;
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #003087;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        /* Alert Boxes */
+        .warning-box {
+            background-color: #fff5f5;
+            border-left: 5px solid #dc3545;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .info-box {
+            background-color: #e3f2fd;
+            border-left: 5px solid #2196f3;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .tag {
+            background: #eee;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.8em;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>BDO Credit Card Fees & Charges Guide</h1>
+    <p style="text-align: center; color: #666;">Revised January 2026 Edition</p>
+
+    <!-- DICTIONARY SECTION -->
+    <h2>📖 Dictionary & Legends (What do these terms mean?)</h2>
+    <p>Understanding these terms will save you money.</p>
+    
+    <div class="dictionary-grid">
+        <div class="term-card">
+            <span class="term-title">Principal Cardholder</span>
+            <span class="term-def">The "Boss" of the account. You are responsible for paying all bills, including those made by your Supplementary cards.</span>
+        </div>
+        <div class="term-card">
+            <span class="term-title">Supplementary Card</span>
+            <span class="term-def">An extra card given to a family member. It shares your credit limit, but you (the Principal) pay the bill.</span>
+        </div>
+        <div class="term-card">
+            <span class="term-title">Finance Charge (FC)</span>
+            <span class="term-def">Another name for <strong>Interest</strong>. This is the extra money you pay the bank if you don't pay the <em>entire</em> bill by the due date.</span>
+        </div>
+        <div class="term-card">
+            <span class="term-title">Minimum Amount Due</span>
+            <span class="term-def">The smallest amount you must pay to keep your account "active." <br><strong>Warning:</strong> Paying only this means you will be charged huge interest on the rest.</span>
+        </div>
+        <div class="term-card">
+            <span class="term-title">SOA (Statement of Account)</span>
+            <span class="term-def">Your monthly bill. It lists everything you bought in the last 30 days.</span>
+        </div>
+        <div class="term-card">
+            <span class="term-title">Cash Advance</span>
+            <span class="term-def">Using your credit card at an ATM to get cash. <br><strong>Avoid this!</strong> Fees and interest start immediately (no grace period).</span>
+        </div>
+        <div class="term-card">
+            <span class="term-title">ADA (Auto-Debit Arrangement)</span>
+            <span class="term-def">A setup where the bank automatically takes the payment from your savings account so you don't forget.</span>
+        </div>
+        <div class="term-card">
+            <span class="term-title">Installment Availment</span>
+            <span class="term-def">Converting a big purchase into smaller monthly payments.</span>
+        </div>
+    </div>
+
+    <hr>
+
+    <!-- FEES SECTION -->
+    <h2>1. Monthly Membership Fees</h2>
+    <p>The cost just to have the card in your wallet. (Billed monthly).</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Card Type</th>
+                <th>Principal (You)</th>
+                <th>Supplementary (Family)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Standard / Classic / Lucky Cat</td>
+                <td>₱150 / month</td>
+                <td>₱75 / month</td>
+            </tr>
+            <tr>
+                <td>ShopMore / Bench Mastercard</td>
+                <td>₱200 / month</td>
+                <td>₱100 / month</td>
+            </tr>
+            <tr>
+                <td>Gold Cards <span class="tag">Popular</span></td>
+                <td>₱200 / month</td>
+                <td>₱100 / month</td>
+            </tr>
+            <tr>
+                <td>Diners Club International</td>
+                <td>₱250 / month</td>
+                <td>₱125 / month</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>2. Transaction Fees (Usage Costs)</h2>
+    
+    <div class="warning-box">
+        <h3>💰 Cash Advance (ATM Withdrawal)</h3>
+        <p>If you use your credit card to withdraw cash at an ATM:</p>
+        <ul>
+            <li><strong>Fee:</strong> ₱200 (or US$3.30) per withdrawal.</li>
+            <li><strong>Interest:</strong> 3.00% per month. <strong>Warning:</strong> Interest starts counting from the <em>exact day</em> you withdraw.</li>
+        </ul>
+    </div>
+
+    <h3>✈️ Foreign Currency Fee (Buying Abroad/Online)</h3>
+    <p>When you buy something in Dollars, Yen, etc., or from a foreign website (like Amazon US):</p>
+    <ul>
+        <li><strong>Fee:</strong> ~2.50% added to the purchase price.</li>
+        <li>(Broken down as: 1% Cross Border Fee + 1.5% Forex Conversion Fee).</li>
+    </ul>
+
+    <h3>🎲 Gambling / Gaming Fee</h3>
+    <p>If you use the card for casinos, betting sites, or crypto exchanges:</p>
+    <ul>
+        <li><strong>Fee:</strong> 5% of the amount or ₱500 (whichever is higher).</li>
+    </ul>
+
+    <h2>3. Penalties (Don't let these happen!)</h2>
+    
+    <h3>⚠️ Late Payment Fee</h3>
+    <p>If you miss your "Payment Due Date":</p>
+    <ul>
+        <li><strong>Fine:</strong> ₱850 (or US$20) <strong>OR</strong> the unpaid minimum amount (whichever is lower).</li>
+    </ul>
+
+    <h3>❌ Returned Check / Failed Auto-Debit</h3>
+    <p>If your check bounces or your bank account is empty during auto-debit:</p>
+    <ul>
+        <li><strong>Fine:</strong> ₱1,250 (or US$35).</li>
+    </ul>
+
+    <h2>4. Important Interest Rules</h2>
+    <div class="info-box">
+        <strong>The "Golden" Number: 3.00%</strong><br>
+        This is the monthly interest rate.
+    </div>
+
+    <h3>When do you get charged Interest?</h3>
+    <ol>
+        <li>If you pay <strong>nothing</strong> by the due date.</li>
+        <li>If you pay <strong>less than the Total Amount Due</strong> (even if you pay the Minimum).</li>
+        <li>If you carry over a balance from the previous month.</li>
+    </ol>
+
+    <div class="warning-box">
+        <strong>IMPORTANT REMINDER:</strong><br>
+        Paying less than the total amount increases your debt quickly because interest is charged on your <strong>entire balance</strong>, not just the part you didn't pay.
+    </div>
+
+    <h2>5. Payment Codes (For paying at the bank)</h2>
+    <table>
+        <tr>
+            <th>Code</th>
+            <th>Use Case</th>
+        </tr>
+        <tr>
+            <td><strong>0800</strong></td>
+            <td>Paying a Peso Card using Pesos</td>
+        </tr>
+        <tr>
+            <td><strong>0802</strong></td>
+            <td>Paying a Dollar Card using Dollars</td>
+        </tr>
+        <tr>
+            <td><strong>0803</strong></td>
+            <td>Paying a Dollar Card using Pesos (Currency exchange applies)</td>
+        </tr>
+    </table>
+
+</div>
+
+</body>
+</html>
