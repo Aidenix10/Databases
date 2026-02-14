@@ -27,399 +27,297 @@
             color: transparent;
             background-image: linear-gradient(to right, #4f46e5, #ec4899);
         }
+
+        /* Hide sections by default, JS will show them */
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        
+        /* Active Tab Style */
+        .nav-btn.active {
+            color: #4f46e5; /* Indigo-600 */
+            border-bottom: 2px solid #4f46e5;
+        }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 min-h-screen">
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
 
     <!-- Hero Section -->
-    <header class="bg-white border-b border-slate-200 sticky top-0 z-50">
-        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-            <h1 class="text-2xl font-extrabold tracking-tight text-slate-900">
-                SQL<span class="text-indigo-600">Simple</span>
-            </h1>
-            <nav class="hidden md:flex space-x-6 text-sm font-medium text-slate-500">
-                <a href="#joins" class="hover:text-indigo-600 transition-colors">Joins</a>
-                <a href="#unions" class="hover:text-emerald-600 transition-colors">Unions</a>
-                <a href="#intersects" class="hover:text-blue-600 transition-colors">Intersects</a>
-                <a href="#keywords" class="hover:text-purple-600 transition-colors">Keywords</a>
-                <a href="#cheatsheet" class="hover:text-amber-600 transition-colors">Cheat Sheet</a>
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 pt-4 pb-0">
+            <div class="flex justify-between items-center mb-4">
+                <h1 class="text-2xl font-extrabold tracking-tight text-slate-900">
+                    SQL<span class="text-indigo-600">Simple</span>
+                </h1>
+            </div>
+            
+            <!-- Navigation Tabs -->
+            <nav class="flex space-x-8 overflow-x-auto no-scrollbar">
+                <button onclick="switchTab('joins')" class="nav-btn active pb-4 text-sm font-medium text-slate-500 hover:text-slate-800 transition-colors whitespace-nowrap">
+                    Joins
+                </button>
+                <button onclick="switchTab('sets')" class="nav-btn pb-4 text-sm font-medium text-slate-500 hover:text-slate-800 transition-colors whitespace-nowrap">
+                    Sets (Unions)
+                </button>
+                <button onclick="switchTab('filtering')" class="nav-btn pb-4 text-sm font-medium text-slate-500 hover:text-slate-800 transition-colors whitespace-nowrap">
+                    Filtering (WHERE)
+                </button>
+                <button onclick="switchTab('keywords')" class="nav-btn pb-4 text-sm font-medium text-slate-500 hover:text-slate-800 transition-colors whitespace-nowrap">
+                    Keywords
+                </button>
+                <button onclick="switchTab('cheatsheet')" class="nav-btn pb-4 text-sm font-medium text-slate-500 hover:text-slate-800 transition-colors whitespace-nowrap">
+                    Cheat Sheet
+                </button>
             </nav>
         </div>
     </header>
 
-    <main class="max-w-6xl mx-auto px-4 py-12 space-y-20">
+    <main class="flex-grow max-w-6xl mx-auto px-4 py-8 w-full">
 
-        <!-- Introduction -->
-        <div class="text-center space-y-4 max-w-2xl mx-auto">
-            <h2 class="text-4xl md:text-5xl font-black tracking-tight">
-                Master SQL like a <span class="gradient-text">Pro</span>.
-            </h2>
-            <p class="text-lg text-slate-600">
-                Forget complex diagrams. Here is the definitive guide to connecting data, explained with parties and Legos.
-            </p>
-        </div>
-
-        <!-- Section 1: JOINS -->
-        <section id="joins" class="scroll-mt-24">
-            <div class="flex items-center space-x-4 mb-8">
-                <div class="p-3 bg-indigo-100 rounded-lg text-indigo-600">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                    </svg>
-                </div>
-                <div>
-                    <h3 class="text-2xl font-bold text-slate-900">1. Joins (Side-by-Side)</h3>
-                    <p class="text-slate-500">Connecting lists based on a relationship (e.g., Friends).</p>
-                </div>
+        <!-- TAB 1: JOINS -->
+        <section id="joins" class="tab-content active space-y-8 animate-fade-in">
+            <div class="bg-indigo-50 border-l-4 border-indigo-500 p-4 rounded-r-lg">
+                <h3 class="font-bold text-indigo-900">The "Party" Analogy</h3>
+                <p class="text-indigo-800 text-sm">Joins connect lists <strong>side-by-side</strong> (adding columns).</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                
-                <!-- Card: Inner Join -->
+                <!-- Inner Join -->
                 <div class="glass-card bg-white rounded-2xl p-6 border-l-4 border-sky-500">
                     <div class="flex justify-between items-start mb-4">
                         <h4 class="text-xl font-bold text-sky-900">Inner Join</h4>
-                        <span class="px-2 py-1 bg-sky-50 text-sky-600 text-xs font-bold uppercase rounded">Exclusive</span>
+                        <span class="bg-sky-50 text-sky-600 text-xs font-bold px-2 py-1 rounded uppercase">Exclusive</span>
                     </div>
-                    <div class="space-y-3">
-                        <p class="font-medium text-slate-800">Action: Keep rows ONLY if they appear in <strong>BOTH</strong> lists.</p>
-                        <p class="text-sm text-slate-500 italic">Note: JOIN and INNER JOIN are the same.</p>
-                        <p class="text-sm text-slate-600 leading-relaxed mt-2">
-                            <strong>The Analogy:</strong> "The Mutual Friends Party." You only get in if you are on the Left List <strong>AND</strong> the Right List.
-                        </p>
-                    </div>
+                    <p class="font-medium text-slate-800 mb-2">Returns rows when there is <strong>at least one match</strong> in both tables.</p>
+                    <p class="text-sm text-slate-500 italic mb-2">Note: JOIN and INNER JOIN are the same.</p>
+                    <p class="text-sm text-slate-600"><strong>Analogy:</strong> The Mutual Friends Party. You only get in if you are on BOTH lists.</p>
                 </div>
 
-                <!-- Card: Left Join -->
+                <!-- Left Join -->
                 <div class="glass-card bg-white rounded-2xl p-6 border-l-4 border-indigo-500">
-                    <div class="flex justify-between items-start mb-4">
-                        <h4 class="text-xl font-bold text-indigo-900">Left Join</h4>
-                        <span class="px-2 py-1 bg-indigo-50 text-indigo-600 text-xs font-bold uppercase rounded">V.I.P. Left</span>
-                    </div>
-                    <div class="space-y-3">
-                        <p class="font-medium text-slate-800">Keep everything from the Left list.</p>
-                        <p class="text-sm text-slate-600 leading-relaxed">
-                            <strong>The Analogy:</strong> Everyone on the <span class="text-indigo-600 font-bold">Left List</span> gets in. If they have a friend on the Right, the friend comes too.
-                        </p>
-                    </div>
+                    <h4 class="text-xl font-bold text-indigo-900 mb-2">Left Join</h4>
+                    <p class="font-medium text-slate-800 mb-2">Keep everything from the Left list.</p>
+                    <p class="text-sm text-slate-600"><strong>Analogy:</strong> Left side is VIP. They get in no matter what. Right side only gets in if they are with a Left VIP.</p>
                 </div>
 
-                <!-- Card: Right Join -->
+                <!-- Right Join -->
                 <div class="glass-card bg-white rounded-2xl p-6 border-l-4 border-purple-500">
-                    <div class="flex justify-between items-start mb-4">
-                        <h4 class="text-xl font-bold text-purple-900">Right Join</h4>
-                        <span class="px-2 py-1 bg-purple-50 text-purple-600 text-xs font-bold uppercase rounded">V.I.P. Right</span>
-                    </div>
-                    <div class="space-y-3">
-                        <p class="font-medium text-slate-800">Keep everything from the Right list.</p>
-                        <p class="text-sm text-slate-600 leading-relaxed">
-                            <strong>The Analogy:</strong> Everyone on the <span class="text-purple-600 font-bold">Right List</span> gets in. If they have a friend on the Left, great!
-                        </p>
-                    </div>
+                    <h4 class="text-xl font-bold text-purple-900 mb-2">Right Join</h4>
+                    <p class="font-medium text-slate-800 mb-2">Keep everything from the Right list.</p>
+                    <p class="text-sm text-slate-600"><strong>Analogy:</strong> Right side is VIP. They get in no matter what.</p>
                 </div>
 
-                <!-- Card: Full Outer Join -->
+                <!-- Full Outer Join -->
                 <div class="glass-card bg-white rounded-2xl p-6 border-l-4 border-pink-500">
                     <div class="flex justify-between items-start mb-4">
                         <h4 class="text-xl font-bold text-pink-900">Full Outer Join</h4>
-                        <span class="px-2 py-1 bg-pink-50 text-pink-600 text-xs font-bold uppercase rounded">Everyone</span>
+                        <span class="bg-pink-50 text-pink-600 text-xs font-bold px-2 py-1 rounded uppercase">Inclusive</span>
                     </div>
-                    <div class="space-y-3">
-                        <p class="font-medium text-slate-800">Action: Keep rows if they appear in <strong>ANY</strong> list (Left <strong>OR</strong> Right).</p>
-                        <p class="text-sm text-slate-600 leading-relaxed">
-                            <strong>The Analogy:</strong> "Everyone is Invited." Left comes, Right comes. If they match, they stand together. If not, they stand alone.
-                        </p>
-                    </div>
+                    <p class="font-medium text-slate-800 mb-2">Returns rows when there is a match in <strong>one</strong> of the tables.</p>
+                    <p class="text-sm text-slate-600"><strong>Analogy:</strong> Everyone is invited. If you are on List A OR List B (or both), you get in.</p>
                 </div>
 
-                <!-- Card: Self Join -->
+                <!-- Self Join -->
                 <div class="glass-card bg-white rounded-2xl p-6 border-l-4 border-slate-400">
-                    <div class="flex justify-between items-start mb-4">
-                        <h4 class="text-xl font-bold text-slate-900">Self Join</h4>
-                        <span class="px-2 py-1 bg-slate-100 text-slate-600 text-xs font-bold uppercase rounded">Mirror</span>
-                    </div>
-                    <div class="space-y-3">
-                        <p class="font-medium text-slate-800">Comparing a list to itself.</p>
-                        <p class="text-sm text-slate-600 leading-relaxed">
-                            <strong>The Analogy:</strong> Finding pairs inside the same group (e.g., employees who live in the same city as their boss).
-                        </p>
-                    </div>
+                    <h4 class="text-xl font-bold text-slate-900 mb-2">Self Join</h4>
+                    <p class="font-medium text-slate-800 mb-2">Comparing a list to itself.</p>
+                    <p class="text-sm text-slate-600"><strong>Analogy:</strong> Looking for connections inside the same group (e.g., Finding students with the same birthday in one class).</p>
                 </div>
 
-                <!-- Card: Cartesian Product -->
-                <div class="glass-card bg-white rounded-2xl p-6 border-l-4 border-amber-500">
-                    <div class="flex justify-between items-start mb-4">
-                        <h4 class="text-xl font-bold text-amber-900">Cartesian Product</h4>
-                        <span class="px-2 py-1 bg-amber-50 text-amber-600 text-xs font-bold uppercase rounded">Cross Join</span>
-                    </div>
-                    <div class="space-y-3">
-                        <p class="font-medium text-slate-800">Every possible combination.</p>
-                        <p class="text-sm text-slate-600 leading-relaxed">
-                            <strong>The Analogy:</strong> "Mix & Match." Every shirt paired with every pair of pants.
-                        </p>
-                    </div>
+                 <!-- Cartesian -->
+                 <div class="glass-card bg-white rounded-2xl p-6 border-l-4 border-amber-500">
+                    <h4 class="text-xl font-bold text-amber-900 mb-2">Cartesian Product</h4>
+                    <p class="font-medium text-slate-800 mb-2">Every possible combination.</p>
+                    <p class="text-sm text-slate-600"><strong>Analogy:</strong> The "Outfit Mix & Match." 3 shirts x 2 pants = 6 outfits.</p>
                 </div>
-
             </div>
         </section>
 
-        <hr class="border-slate-200">
 
-        <!-- Section 2: UNIONS -->
-        <section id="unions" class="scroll-mt-24">
-            <div class="flex items-center space-x-4 mb-4">
-                <div class="p-3 bg-emerald-100 rounded-lg text-emerald-600">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
-                    </svg>
-                </div>
-                <div>
-                    <h3 class="text-2xl font-bold text-slate-900">2. Unions (The Aggregators)</h3>
-                    <p class="text-slate-500">Use this when you want to <strong>stack</strong> lists on top of each other.</p>
-                </div>
-            </div>
-
-            <div class="bg-emerald-50 border-l-4 border-emerald-500 p-4 mb-6 rounded-r-lg">
-                <p class="text-emerald-900 text-sm">
-                    <strong>Think:</strong> "I have a list of Apples and a list of Oranges. I want one big list of Fruit."
-                </p>
+        <!-- TAB 2: SETS -->
+        <section id="sets" class="tab-content space-y-8">
+            <div class="bg-emerald-50 border-l-4 border-emerald-500 p-4 rounded-r-lg">
+                <h3 class="font-bold text-emerald-900">The "Lego" Analogy</h3>
+                <p class="text-emerald-800 text-sm">Sets stack lists <strong>top-to-bottom</strong> (adding rows).</p>
             </div>
 
             <div class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse">
-                        <thead>
-                            <tr class="bg-slate-50 border-b border-slate-200">
-                                <th class="p-5 text-sm font-semibold tracking-wide text-slate-500 uppercase w-1/4">Command</th>
-                                <th class="p-5 text-sm font-semibold tracking-wide text-slate-500 uppercase w-1/4">Logic</th>
-                                <th class="p-5 text-sm font-semibold tracking-wide text-slate-500 uppercase w-1/2">The Lego Analogy</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-slate-100">
-                            <!-- Union -->
-                            <tr class="hover:bg-slate-50 transition-colors">
-                                <td class="p-5">
-                                    <span class="font-bold text-emerald-600">Union</span>
-                                    <div class="text-xs text-slate-400 mt-1">Clean List</div>
-                                </td>
-                                <td class="p-5 text-slate-700">Combine + Remove Duplicates</td>
-                                <td class="p-5 text-sm text-slate-600">
-                                    You dump two buckets of Legos. If you find two identical red bricks, you throw one away and keep just one.
-                                </td>
-                            </tr>
-                            <!-- Union All -->
-                            <tr class="hover:bg-slate-50 transition-colors">
-                                <td class="p-5">
-                                    <span class="font-bold text-emerald-600">Union All</span>
-                                    <div class="text-xs text-slate-400 mt-1">Raw List</div>
-                                </td>
-                                <td class="p-5 text-slate-700">Combine + Keep Everything</td>
-                                <td class="p-5 text-sm text-slate-600">
-                                    You dump two buckets of Legos and keep the pile exactly as it is. If you have five identical red bricks, you keep all five.
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                <table class="w-full text-left border-collapse">
+                    <thead class="bg-slate-50 border-b border-slate-200">
+                        <tr>
+                            <th class="p-5 text-sm font-semibold text-slate-500 uppercase">Command</th>
+                            <th class="p-5 text-sm font-semibold text-slate-500 uppercase">Logic</th>
+                            <th class="p-5 text-sm font-semibold text-slate-500 uppercase">Analogy</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                        <tr>
+                            <td class="p-5 font-bold text-emerald-600">Union</td>
+                            <td class="p-5 text-slate-700">Combine + Remove Duplicates</td>
+                            <td class="p-5 text-sm text-slate-600">Dump two buckets of Legos into one pile. Remove identical duplicates.</td>
+                        </tr>
+                        <tr>
+                            <td class="p-5 font-bold text-emerald-600">Union All</td>
+                            <td class="p-5 text-slate-700">Combine + Keep Everything</td>
+                            <td class="p-5 text-sm text-slate-600">Dump two buckets and keep the pile exactly as is (even duplicates).</td>
+                        </tr>
+                        <tr>
+                            <td class="p-5 font-bold text-blue-600">Intersect</td>
+                            <td class="p-5 text-slate-700">Match + Remove Duplicates</td>
+                            <td class="p-5 text-sm text-slate-600">Find the bricks that exist in BOTH buckets. Discard unique ones.</td>
+                        </tr>
+                        <tr>
+                            <td class="p-5 font-bold text-blue-600">Intersect All</td>
+                            <td class="p-5 text-slate-700">Match + Keep Duplicates</td>
+                            <td class="p-5 text-sm text-slate-600">Same as Intersect, but if you have 2 matches, you keep 2 matches.</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </section>
 
 
-        <!-- Section 3: INTERSECTS -->
-        <section id="intersects" class="scroll-mt-24">
-            <div class="flex items-center space-x-4 mb-4">
-                <div class="p-3 bg-blue-100 rounded-lg text-blue-600">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                    </svg>
-                </div>
-                <div>
-                    <h3 class="text-2xl font-bold text-slate-900">3. Intersects (The Matchmakers)</h3>
-                    <p class="text-slate-500">Use this when you want to find <strong>matches</strong> between lists.</p>
-                </div>
-            </div>
-
-            <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6 rounded-r-lg">
-                <p class="text-blue-900 text-sm">
-                    <strong>Think:</strong> "I have a list of Students and a list of Athletes. Who is on BOTH lists?"
-                </p>
-            </div>
-
-            <div class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse">
-                        <thead>
-                            <tr class="bg-slate-50 border-b border-slate-200">
-                                <th class="p-5 text-sm font-semibold tracking-wide text-slate-500 uppercase w-1/4">Command</th>
-                                <th class="p-5 text-sm font-semibold tracking-wide text-slate-500 uppercase w-1/4">Logic</th>
-                                <th class="p-5 text-sm font-semibold tracking-wide text-slate-500 uppercase w-1/2">The Lego Analogy</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-slate-100">
-                            <!-- Intersect -->
-                            <tr class="hover:bg-slate-50 transition-colors">
-                                <td class="p-5">
-                                    <span class="font-bold text-blue-600">Intersect</span>
-                                    <div class="text-xs text-slate-400 mt-1">Shared Only</div>
-                                </td>
-                                <td class="p-5 text-slate-700">Match + Remove Duplicates</td>
-                                <td class="p-5 text-sm text-slate-600">
-                                    You look at both buckets. You only pick out the pieces that exist in Bucket A AND Bucket B.
-                                </td>
-                            </tr>
-                            <!-- Intersect All -->
-                            <tr class="hover:bg-slate-50 transition-colors">
-                                <td class="p-5">
-                                    <span class="font-bold text-blue-600">Intersect All</span>
-                                    <div class="text-xs text-slate-400 mt-1">Shared w/ Dups</div>
-                                </td>
-                                <td class="p-5 text-slate-700">Match + Keep Duplicates</td>
-                                <td class="p-5 text-sm text-slate-600">
-                                    You check both buckets. If Bucket A has 3 red bricks and Bucket B has 2, you keep the 2 that match in both places.
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </section>
-
-        <!-- Section 4: KEYWORDS -->
-        <section id="keywords" class="scroll-mt-24">
-            <div class="flex items-center space-x-4 mb-4">
-                <div class="p-3 bg-purple-100 rounded-lg text-purple-600">
+        <!-- TAB 3: FILTERING (WHERE) -->
+        <section id="filtering" class="tab-content space-y-8">
+            <div class="bg-orange-50 border-l-4 border-orange-500 p-4 rounded-r-lg flex items-start space-x-3">
+                <div class="p-2 bg-orange-100 rounded text-orange-600">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
                     </svg>
                 </div>
                 <div>
-                    <h3 class="text-2xl font-bold text-slate-900">4. Essential Keywords</h3>
-                    <p class="text-slate-500">Filtering your results and setting rules.</p>
+                    <h3 class="font-bold text-orange-900">The "Filter" Analogy</h3>
+                    <p class="text-orange-800 text-sm">Think of a coffee filter, or filtering "Shoes under $50" on Amazon.</p>
                 </div>
             </div>
 
-            <div class="bg-purple-50 border-l-4 border-purple-500 p-4 mb-6 rounded-r-lg">
-                <p class="text-purple-900 text-sm">
-                    <strong>The Confusion:</strong> DISTINCT and UNIQUE both sound like "different," but one is for <em>viewing</em> data, and the other is for <em>saving</em> data.
-                </p>
-            </div>
-
-            <div class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse">
-                        <thead>
-                            <tr class="bg-slate-50 border-b border-slate-200">
-                                <th class="p-5 text-sm font-semibold tracking-wide text-slate-500 uppercase w-1/4">Keyword</th>
-                                <th class="p-5 text-sm font-semibold tracking-wide text-slate-500 uppercase w-1/4">The Simple Definition</th>
-                                <th class="p-5 text-sm font-semibold tracking-wide text-slate-500 uppercase w-1/2">The Analogy</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-slate-100">
-                            <!-- DISTINCT -->
-                            <tr class="hover:bg-slate-50 transition-colors">
-                                <td class="p-5">
-                                    <span class="font-bold text-purple-600">DISTINCT</span>
-                                    <div class="text-xs text-slate-400 mt-1">The "De-Clutterer"</div>
-                                </td>
-                                <td class="p-5 text-slate-700">Returns only unique values in your <strong>result</strong>.</td>
-                                <td class="p-5 text-sm text-slate-600">
-                                    You take 10 photos of a flower, but 3 look exactly the same. You filter your gallery to only show the different ones.
-                                    <br><code class="bg-slate-100 p-1 rounded text-xs mt-2 block w-fit">SELECT DISTINCT flowername FROM flowers</code>
-                                </td>
-                            </tr>
-                            <!-- UNIQUE -->
-                            <tr class="hover:bg-slate-50 transition-colors">
-                                <td class="p-5">
-                                    <span class="font-bold text-purple-600">UNIQUE</span>
-                                    <div class="text-xs text-slate-400 mt-1">The "Bouncer"</div>
-                                </td>
-                                <td class="p-5 text-slate-700">A rule that ensures specific data is unique when <strong>entering</strong> it.</td>
-                                <td class="p-5 text-sm text-slate-600">
-                                    A rule at school: "No two students can have the same Student ID." If you try to give a new student an old ID, the system stops you.
-                                </td>
-                            </tr>
-                            <!-- TOP 1 -->
-                            <tr class="hover:bg-slate-50 transition-colors">
-                                <td class="p-5">
-                                    <span class="font-bold text-purple-600">TOP 1</span>
-                                    <div class="text-xs text-slate-400 mt-1">The "First Place"</div>
-                                </td>
-                                <td class="p-5 text-slate-700">Returns only the very first value of a record set.</td>
-                                <td class="p-5 text-sm text-slate-600">
-                                    In a race, you might have 100 runners, but you only care about the winner. You ask for the "Top 1."
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </section>
-
-
-        <!-- Section 3: Cheat Sheet -->
-        <section id="cheatsheet" class="scroll-mt-24 pb-20">
-             <div class="mt-20 flex items-center space-x-4 mb-8">
-                <div class="p-3 bg-amber-100 rounded-lg text-amber-600">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
-                </div>
-                <div>
-                    <h3 class="text-2xl font-bold text-slate-900">Cheat Sheet</h3>
-                    <p class="text-slate-500">When should you actually use these?</p>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="glass-card bg-white rounded-2xl p-8 border border-slate-200">
+                <h2 class="text-3xl font-black text-slate-800 mb-6">The WHERE Clause</h2>
                 
-                <!-- Use Union When -->
-                <div class="p-6 bg-emerald-50 rounded-2xl border border-emerald-100">
-                    <h4 class="font-bold text-emerald-800 text-lg mb-3">Use <span class="uppercase">Union</span> when:</h4>
-                    <p class="text-sm text-slate-700 mb-2">You need a <span class="font-bold">Clean List</span>.</p>
-                    <div class="text-sm text-slate-600 space-y-2">
-                        <p><strong>Example:</strong> Mailing Lists.</p>
-                        <p><strong>Why?</strong> You don't want to email the same person twice just because they signed up twice.</p>
+                <div class="space-y-6">
+                    <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+                        <h4 class="font-bold text-slate-900 mb-2 text-lg">Definition</h4>
+                        <p class="text-slate-700 leading-relaxed mb-4">
+                            "The WHERE clause allows you to obtain a <strong>subset</strong> of rows."
+                        </p>
+                        <p class="text-slate-700 leading-relaxed">
+                            "The WHERE clause is used to obtain only the records that <strong>fulfill the criterion</strong> in the WHERE clause."
+                        </p>
                     </div>
-                </div>
 
-                <!-- Use Union ALL When -->
-                <div class="p-6 bg-emerald-50 rounded-2xl border border-emerald-100">
-                    <h4 class="font-bold text-emerald-800 text-lg mb-3">Use <span class="uppercase">Union All</span> when:</h4>
-                    <p class="text-sm text-slate-700 mb-2">You need <span class="font-bold">Total Accuracy</span> or Speed.</p>
-                    <div class="text-sm text-slate-600 space-y-2">
-                        <p><strong>Example:</strong> Bank Statements.</p>
-                        <p><strong>Why?</strong> If you deposit $5 twice, you want to see it twice. You don't want the bank to merge them!</p>
+                    <div class="flex items-center space-x-4 p-4 bg-orange-50 rounded-lg text-orange-800 text-sm">
+                        <span class="font-bold bg-white px-2 py-1 rounded border border-orange-200 shadow-sm">Code Example</span>
+                        <code class="font-mono">SELECT * FROM Songs WHERE Genre = 'Rock'</code>
                     </div>
-                </div>
 
-                <!-- Use Intersect When -->
-                <div class="p-6 bg-blue-50 rounded-2xl border border-blue-100">
-                    <h4 class="font-bold text-blue-800 text-lg mb-3">Use <span class="uppercase">Intersect</span> when:</h4>
-                    <p class="text-sm text-slate-700 mb-2">You need to find <span class="font-bold">Common Ground</span>.</p>
-                    <div class="text-sm text-slate-600 space-y-2">
-                        <p><strong>Example:</strong> Marketing.</p>
-                        <p><strong>Why?</strong> "Which customers bought an iPhone AND an iPad?" You don't care how many, just who.</p>
-                    </div>
+                    <p class="text-slate-600 italic">
+                        <strong>Translation:</strong> "Show me the list of songs, but FILTER it to ONLY show me the Rock songs."
+                    </p>
                 </div>
-
-                <!-- Use Intersect ALL When -->
-                <div class="p-6 bg-blue-50 rounded-2xl border border-blue-100">
-                    <h4 class="font-bold text-blue-800 text-lg mb-3">Use <span class="uppercase">Intersect All</span> when:</h4>
-                    <p class="text-sm text-slate-700 mb-2">You need <span class="font-bold">Inventory Matching</span>.</p>
-                    <div class="text-sm text-slate-600 space-y-2">
-                        <p><strong>Example:</strong> Card Trading.</p>
-                        <p><strong>Why?</strong> I have 2 Charizards, you have 3. We have exactly 2 cards in common to trade. Quantity matters.</p>
-                    </div>
-                </div>
-
             </div>
         </section>
 
-        <!-- Footer -->
-        <footer class="text-center text-slate-400 text-sm py-8">
-            <p>Made for learning SQL easily.</p>
-        </footer>
+
+        <!-- TAB 4: KEYWORDS -->
+        <section id="keywords" class="tab-content space-y-8">
+            <div class="bg-purple-50 border-l-4 border-purple-500 p-4 rounded-r-lg">
+                <h3 class="font-bold text-purple-900">Rules & Limits</h3>
+                <p class="text-purple-800 text-sm">Keywords that clean up your results or set rules for data entry.</p>
+            </div>
+
+            <div class="grid grid-cols-1 gap-4">
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col md:flex-row gap-4 items-start">
+                    <div class="bg-purple-100 text-purple-700 font-bold px-4 py-2 rounded-lg whitespace-nowrap">DISTINCT</div>
+                    <div>
+                        <p class="font-bold text-slate-800">The "De-Clutterer"</p>
+                        <p class="text-sm text-slate-600 mt-1">Returns each combination of matching values <strong>only once</strong>.</p>
+                        <p class="text-xs text-slate-400 mt-2 font-mono">SELECT DISTINCT flowername FROM flowers</p>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col md:flex-row gap-4 items-start">
+                    <div class="bg-purple-100 text-purple-700 font-bold px-4 py-2 rounded-lg whitespace-nowrap">UNIQUE</div>
+                    <div>
+                        <p class="font-bold text-slate-800">The "Bouncer" (Rule)</p>
+                        <p class="text-sm text-slate-600 mt-1">Used to ensure a value is unique when <strong>entering</strong> data into a field.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col md:flex-row gap-4 items-start">
+                    <div class="bg-purple-100 text-purple-700 font-bold px-4 py-2 rounded-lg whitespace-nowrap">TOP 1</div>
+                    <div>
+                        <p class="font-bold text-slate-800">The "Winner"</p>
+                        <p class="text-sm text-slate-600 mt-1">Used to return the <strong>first value</strong> of a record set.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- TAB 5: CHEAT SHEET -->
+        <section id="cheatsheet" class="tab-content space-y-8">
+            <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-lg">
+                <h3 class="font-bold text-amber-900">Quick Decision Guide</h3>
+                <p class="text-amber-800 text-sm">Don't overthink it. Just follow the guide.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="p-6 bg-white rounded-xl border border-slate-200 shadow-sm">
+                    <h4 class="font-bold text-emerald-600 mb-2">Need a Clean Mailing List?</h4>
+                    <p class="text-slate-800 font-bold text-2xl mb-1">UNION</p>
+                    <p class="text-slate-500 text-sm">Merges lists and removes duplicates.</p>
+                </div>
+
+                <div class="p-6 bg-white rounded-xl border border-slate-200 shadow-sm">
+                    <h4 class="font-bold text-emerald-600 mb-2">Need a Bank Statement?</h4>
+                    <p class="text-slate-800 font-bold text-2xl mb-1">UNION ALL</p>
+                    <p class="text-slate-500 text-sm">Keeps every single record, even duplicates.</p>
+                </div>
+
+                <div class="p-6 bg-white rounded-xl border border-slate-200 shadow-sm">
+                    <h4 class="font-bold text-blue-600 mb-2">Need Common Ground?</h4>
+                    <p class="text-slate-800 font-bold text-2xl mb-1">INTERSECT</p>
+                    <p class="text-slate-500 text-sm">"Who bought an iPad AND an iPhone?"</p>
+                </div>
+
+                 <div class="p-6 bg-white rounded-xl border border-slate-200 shadow-sm">
+                    <h4 class="font-bold text-orange-600 mb-2">Need Specific Items?</h4>
+                    <p class="text-slate-800 font-bold text-2xl mb-1">WHERE</p>
+                    <p class="text-slate-500 text-sm">"Show me only the red shoes."</p>
+                </div>
+            </div>
+        </section>
 
     </main>
+
+    <footer class="text-center text-slate-400 text-sm py-6 border-t border-slate-100 mt-auto">
+        <p>Made for learning SQL easily.</p>
+    </footer>
+
+    <script>
+        function switchTab(tabId) {
+            // Hide all contents
+            document.querySelectorAll('.tab-content').forEach(el => {
+                el.classList.remove('active');
+            });
+            // Show selected content
+            document.getElementById(tabId).classList.add('active');
+
+            // Reset all buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+                btn.classList.remove('text-indigo-600');
+                btn.classList.add('text-slate-500');
+            });
+
+            // Highlight active button (Matches the onclick logic)
+            // Simple way: Find the button that calls this function with this ID
+            const activeBtn = document.querySelector(`button[onclick="switchTab('${tabId}')"]`);
+            if(activeBtn) {
+                activeBtn.classList.add('active');
+                activeBtn.classList.remove('text-slate-500');
+                activeBtn.classList.add('text-indigo-600');
+            }
+        }
+    </script>
 </body>
 </html>
