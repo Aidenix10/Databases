@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL Object Management & Troubleshooting</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap');
+        
+        body { font-family: 'Inter', sans-serif; }
+        code, pre { font-family: 'JetBrains Mono', monospace; }
+        
+        .code-bad { @apply bg-red-50 text-red-700 border-l-4 border-red-500 p-3 my-2 text-sm rounded-r; }
+        .code-good { @apply bg-green-50 text-green-700 border-l-4 border-green-500 p-3 my-2 text-sm rounded-r; }
+        
+        .concept-card {
+            transition: all 0.2s ease;
+        }
+        .concept-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <!-- Header -->
+    <header class="bg-slate-900 text-white py-8 border-b-4 border-blue-500">
+        <div class="container mx-auto px-4 max-w-5xl">
+            <h1 class="text-3xl font-bold mb-2"><i class="fa-solid fa-database mr-3"></i>SQL Object Management</h1>
+            <p class="text-slate-400">Troubleshooting query failures based on View creation and deletion errors.</p>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 max-w-5xl py-8 space-y-10">
+
+        <!-- Intro Section -->
+        <section class="bg-white p-6 rounded-lg shadow-sm border border-slate-200">
+            <h2 class="text-xl font-bold text-slate-800 mb-4">Core Concept: Objects vs. Data</h2>
+            <p class="mb-4">
+                The most common errors in SQL management come from confusing <strong>Data Manipulation</strong> (changing the records inside a table) with <strong>Data Definition</strong> (changing the table or view structure itself).
+            </p>
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="bg-blue-50 p-4 rounded border border-blue-100">
+                    <h3 class="font-bold text-blue-800 mb-2">DDL (Data Definition Language)</h3>
+                    <p class="text-sm text-blue-700">Commands that define the structure.</p>
+                    <ul class="list-disc list-inside text-sm mt-2 text-blue-800">
+                        <li><code>CREATE</code></li>
+                        <li><code>DROP</code></li>
+                        <li><code>ALTER</code></li>
+                    </ul>
+                </div>
+                <div class="bg-emerald-50 p-4 rounded border border-emerald-100">
+                    <h3 class="font-bold text-emerald-800 mb-2">DML (Data Manipulation Language)</h3>
+                    <p class="text-sm text-emerald-700">Commands that manage data rows.</p>
+                    <ul class="list-disc list-inside text-sm mt-2 text-emerald-800">
+                        <li><code>SELECT</code></li>
+                        <li><code>INSERT</code></li>
+                        <li><code>UPDATE</code></li>
+                        <li><code>DELETE</code></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- The "Delete" Confusion Table -->
+        <section>
+            <h2 class="text-2xl font-bold text-slate-800 mb-6 border-b pb-2">1. The "Removal" Keywords</h2>
+            <p class="mb-4 text-slate-600">Your document highlights a specific error: trying to use <code>DELETE</code> on a View. Use this table to distinguish the commands.</p>
+            
+            <div class="overflow-x-auto rounded-lg shadow-sm border border-slate-200">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-slate-100 text-slate-700 text-sm uppercase">
+                            <th class="p-4 border-b">Keyword</th>
+                            <th class="p-4 border-b">Target</th>
+                            <th class="p-4 border-b">Action</th>
+                            <th class="p-4 border-b">PDF Scenario</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200 bg-white">
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-4 font-mono font-bold text-red-600">DROP</td>
+                            <td class="p-4">Objects (Views, Tables)</td>
+                            <td class="p-4">Removes the <strong>entire structure</strong> and all data. The object ceases to exist.</td>
+                            <td class="p-4 text-sm"><span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">Correct</span> Used to remove a VIEW.</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-4 font-mono font-bold text-orange-600">DELETE</td>
+                            <td class="p-4">Data (Rows)</td>
+                            <td class="p-4">Removes specific <strong>rows</strong> from a table based on a WHERE clause.</td>
+                            <td class="p-4 text-sm"><span class="bg-red-100 text-red-800 px-2 py-1 rounded text-xs">Error</span> Cannot be used to remove the View object itself.</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-4 font-mono font-bold text-purple-600">TRUNCATE</td>
+                            <td class="p-4">Data (All Rows)</td>
+                            <td class="p-4">Instantly empties a table. Resets identity counters. Structure remains.</td>
+                            <td class="p-4 text-sm"><span class="bg-red-100 text-red-800 px-2 py-1 rounded text-xs">Incorrect</span> Not used for Views.</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-4 font-mono font-bold text-slate-600">REVOKE</td>
+                            <td class="p-4">Permissions</td>
+                            <td class="p-4">Removes a user's <strong>rights</strong> to access or change an object.</td>
+                            <td class="p-4 text-sm"><span class="bg-gray-100 text-gray-800 px-2 py-1 rounded text-xs">Distractor</span> Does not delete data or objects.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- View Creation Errors -->
+        <section>
+            <h2 class="text-2xl font-bold text-slate-800 mb-6 border-b pb-2">2. Troubleshooting CREATE VIEW</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                
+                <!-- Error 1: Naming -->
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-slate-200 concept-card">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center mr-3 text-red-500">
+                            <i class="fa-solid fa-font"></i>
+                        </div>
+                        <h3 class="text-lg font-bold">Error: Spaces in Names</h3>
+                    </div>
+                    <p class="text-sm text-slate-600 mb-4">
+                        Database object names (identifiers) cannot contain spaces unless they are enclosed in specific delimiters (like brackets <code>[]</code> or quotes <code>""</code>).
+                    </p>
+                    
+                    <div class="mb-4">
+                        <p class="text-xs font-semibold uppercase text-slate-500">The Error:</p>
+                        <div class="code-bad">
+                            CREATE VIEW vw UtahCustomers AS...
+                        </div>
+                        <p class="text-xs text-red-600 mt-1">SQL reads "vw" as the name, then gets confused by "UtahCustomers".</p>
+                    </div>
+
+                    <div>
+                        <p class="text-xs font-semibold uppercase text-slate-500">The Fix:</p>
+                        <div class="code-good">
+                            CREATE VIEW vw_UtahCustomers AS...
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Error 2: Order By -->
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-slate-200 concept-card">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center mr-3 text-red-500">
+                            <i class="fa-solid fa-arrow-down-short-wide"></i>
+                        </div>
+                        <h3 class="text-lg font-bold">Error: ORDER BY Clause</h3>
+                    </div>
+                    <p class="text-sm text-slate-600 mb-4">
+                        A View is a "Virtual Table." Tables in Relational Databases are unordered sets. Therefore, you strictly cannot define an order <strong>inside</strong> the View definition.
+                    </p>
+                    
+                    <div class="mb-4">
+                        <p class="text-xs font-semibold uppercase text-slate-500">The Error:</p>
+                        <div class="code-bad">
+                            CREATE VIEW x AS SELECT * FROM table ORDER BY Name
+                        </div>
+                        <p class="text-xs text-red-600 mt-1">Throws a Syntax Error.</p>
+                    </div>
+
+                    <div>
+                        <p class="text-xs font-semibold uppercase text-slate-500">The Fix:</p>
+                        <div class="code-good">
+                            SELECT * FROM NameOfView ORDER BY Name
+                        </div>
+                        <p class="text-xs text-green-600 mt-1">Apply the order when you <em>use</em> the view, not when you create it.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Summary -->
+        <section class="bg-indigo-900 text-white p-8 rounded-lg shadow-lg">
+            <h2 class="text-2xl font-bold mb-4">Quick Reference Summary</h2>
+            <ul class="space-y-3">
+                <li class="flex items-start">
+                    <i class="fa-solid fa-check mt-1 text-green-400 mr-3"></i>
+                    <span><strong>To remove a View:</strong> Use <code>DROP VIEW view_name;</code></span>
+                </li>
+                <li class="flex items-start">
+                    <i class="fa-solid fa-check mt-1 text-green-400 mr-3"></i>
+                    <span><strong>Naming Views:</strong> Avoid spaces. Use underscores (<code>my_view</code>) or CamelCase (<code>MyView</code>).</span>
+                </li>
+                <li class="flex items-start">
+                    <i class="fa-solid fa-check mt-1 text-green-400 mr-3"></i>
+                    <span><strong>Sorting Views:</strong> Do not use <code>ORDER BY</code> inside the CREATE statement. Sort the data when you SELECT from the view later.</span>
+                </li>
+                <li class="flex items-start">
+                    <i class="fa-solid fa-check mt-1 text-green-400 mr-3"></i>
+                    <span><strong>Where Clause:</strong> <code>WHERE state = 'Utah'</code> is perfectly valid inside a View.</span>
+                </li>
+            </ul>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-100 py-6 mt-8 border-t border-slate-200">
+        <div class="container mx-auto px-4 text-center text-slate-500 text-sm">
+            <p>Generated based on PDF: "5.1 Troubleshoot data object management query failures"</p>
+        </div>
+    </footer>
+
+</body>
+</html>
