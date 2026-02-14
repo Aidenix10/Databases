@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL Aggregation & Analysis Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .code-snippet {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #1e293b;
+            color: #e2e8f0;
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.25rem;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <!-- Header -->
+    <header class="bg-indigo-700 text-white py-8 shadow-lg">
+        <div class="container mx-auto px-4 max-w-5xl">
+            <h1 class="text-3xl md:text-4xl font-bold mb-2"><i class="fas fa-database mr-3"></i>Construct & Analyze Queries</h1>
+            <p class="text-indigo-100 text-lg">A guide to aggregating data, based on the provided course material (Section 3.3).</p>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 max-w-5xl py-8 space-y-12">
+
+        <!-- Section 1: Aggregate Functions -->
+        <section>
+            <div class="flex items-center mb-6">
+                <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 mr-3">
+                    <i class="fas fa-calculator"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-slate-800">1. Aggregate Functions</h2>
+            </div>
+            <p class="mb-6 text-slate-600">These keywords perform calculations on a set of values to return a single scalar value.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- MAX -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 hover:shadow-md transition">
+                    <h3 class="text-xl font-bold text-indigo-600 mb-2">MAX</h3>
+                    <p class="text-sm text-slate-500 mb-3 uppercase tracking-wide font-semibold">Highest Amount</p>
+                    <p class="text-slate-700">Used to get the <strong>highest</strong> amount or value within a column of data.</p>
+                    <div class="mt-4 bg-slate-100 p-3 rounded text-xs text-slate-600">
+                        <code>SELECT MAX(sales) FROM data;</code>
+                    </div>
+                </div>
+
+                <!-- MIN -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 hover:shadow-md transition">
+                    <h3 class="text-xl font-bold text-indigo-600 mb-2">MIN</h3>
+                    <p class="text-sm text-slate-500 mb-3 uppercase tracking-wide font-semibold">Lowest Amount</p>
+                    <p class="text-slate-700">Used to get the <strong>lowest</strong> value from a set of values.</p>
+                    <div class="mt-4 bg-slate-100 p-3 rounded text-xs text-slate-600">
+                        <code>SELECT MIN(calls) FROM call_log;</code>
+                    </div>
+                </div>
+
+                <!-- SUM -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 hover:shadow-md transition">
+                    <h3 class="text-xl font-bold text-indigo-600 mb-2">SUM</h3>
+                    <p class="text-sm text-slate-500 mb-3 uppercase tracking-wide font-semibold">Total Amount</p>
+                    <p class="text-slate-700">Calculates the total sum of a numeric column.</p>
+                    <div class="mt-4 bg-slate-100 p-3 rounded text-xs text-slate-600">
+                        <code>SELECT SUM(amount) FROM sales;</code>
+                    </div>
+                </div>
+
+                <!-- AVG -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 hover:shadow-md transition">
+                    <h3 class="text-xl font-bold text-indigo-600 mb-2">AVG</h3>
+                    <p class="text-sm text-slate-500 mb-3 uppercase tracking-wide font-semibold">Average Value</p>
+                    <p class="text-slate-700">Obtains the average (mean) of the fields being grouped.</p>
+                    <div class="mt-4 bg-slate-100 p-3 rounded text-xs text-slate-600">
+                        <code>SELECT AVG(sales) FROM totalsales;</code>
+                    </div>
+                </div>
+
+                <!-- COUNT(*) -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 hover:shadow-md transition">
+                    <h3 class="text-xl font-bold text-indigo-600 mb-2">COUNT(*)</h3>
+                    <p class="text-sm text-slate-500 mb-3 uppercase tracking-wide font-semibold">Record Count</p>
+                    <p class="text-slate-700">Returns the number of <strong>records</strong> (rows) in a table. The <code>*</code> does not refer to a specific column.</p>
+                    <div class="mt-4 bg-slate-100 p-3 rounded text-xs text-slate-600">
+                        <code>SELECT COUNT(*) FROM employees;</code>
+                    </div>
+                </div>
+
+                <!-- VALUES (Distractor) -->
+                <div class="bg-slate-50 p-6 rounded-xl shadow-inner border border-slate-200 opacity-75">
+                    <h3 class="text-xl font-bold text-slate-500 mb-2">VALUES</h3>
+                    <p class="text-sm text-slate-400 mb-3 uppercase tracking-wide font-semibold">Not an Aggregate</p>
+                    <p class="text-slate-600">Commonly mistaken for an aggregate in questions. It is actually used in <code>INSERT</code> statements to specify data to add.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Filtering Logic (The Big Distinction) -->
+        <section>
+            <div class="flex items-center mb-6">
+                <div class="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600 mr-3">
+                    <i class="fas fa-filter"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-slate-800">2. WHERE vs. HAVING</h2>
+            </div>
+            <p class="mb-6 text-slate-600">A critical concept in the text is distinguishing when to filter data. The document emphasizes that you cannot use <code>WHERE</code> on an aggregated total.</p>
+
+            <div class="overflow-hidden rounded-xl border border-slate-200 shadow-sm">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-slate-100 border-b border-slate-200">
+                            <th class="p-4 font-semibold text-slate-700 w-1/3">Clause</th>
+                            <th class="p-4 font-semibold text-slate-700">Function & Rules</th>
+                            <th class="p-4 font-semibold text-slate-700">Example</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white">
+                        <tr class="border-b border-slate-100">
+                            <td class="p-4">
+                                <span class="code-snippet text-lg font-bold">WHERE</span>
+                            </td>
+                            <td class="p-4 text-slate-600">
+                                <ul class="list-disc ml-5 space-y-1">
+                                    <li>Used to filter <strong>individual records</strong>.</li>
+                                    <li>Applied <em>before</em> grouping happens.</li>
+                                    <li><strong>Cannot</strong> filter on totals (like <code>SUM</code> or <code>AVG</code>).</li>
+                                </ul>
+                            </td>
+                            <td class="p-4 font-mono text-sm text-slate-600">
+                                WHERE salesamount >= 50000
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="p-4">
+                                <span class="code-snippet text-lg font-bold">HAVING</span>
+                            </td>
+                            <td class="p-4 text-slate-600">
+                                <ul class="list-disc ml-5 space-y-1">
+                                    <li>Used to filter <strong>aggregates/totals</strong>.</li>
+                                    <li>Applied <em>after</em> the <code>GROUP BY</code> clause.</li>
+                                    <li>Must be paired with an aggregate function in the logic.</li>
+                                </ul>
+                            </td>
+                            <td class="p-4 font-mono text-sm text-slate-600">
+                                HAVING SUM(sales) >= 50000
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Section 3: The Grouping Rules -->
+        <section>
+            <div class="flex items-center mb-6">
+                <div class="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center text-amber-600 mr-3">
+                    <i class="fas fa-layer-group"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-slate-800">3. The GROUP BY Rules</h2>
+            </div>
+            
+            <div class="bg-amber-50 border-l-4 border-amber-400 p-6 rounded-r-lg shadow-sm">
+                <h3 class="text-lg font-bold text-amber-800 mb-3">The "Golden Rule" of Grouping</h3>
+                <p class="text-amber-900 mb-4">
+                    If you are selecting columns along with an aggregate (like SUM or AVG), 
+                    <strong>any field that is NOT aggregated must be included in the GROUP BY clause.</strong>
+                </p>
+                <div class="bg-white p-4 rounded border border-amber-200">
+                    <p class="text-xs text-slate-500 font-bold mb-1">CORRECT SYNTAX:</p>
+                    <code class="text-sm text-slate-700 block mb-3">
+                        SELECT <span class="text-blue-600 font-bold">region, salesperson</span>, SUM(sales)<br>
+                        FROM totalsales<br>
+                        GROUP BY <span class="text-blue-600 font-bold">region, salesperson</span>
+                    </code>
+                    <p class="text-xs text-slate-500">Notice that "region" and "salesperson" are in both the SELECT list and the GROUP BY list.</p>
+                </div>
+            </div>
+
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-slate-200">
+                    <h4 class="font-bold text-red-500 mb-2"><i class="fas fa-times-circle mr-2"></i>Common Misconceptions</h4>
+                    <ul class="space-y-3 text-slate-600">
+                        <li class="flex items-start">
+                            <span class="mr-2 text-red-400">•</span>
+                            <span>A <code>GROUP BY</code> clause must be paired with a <code>HAVING</code> clause. (False)</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-2 text-red-400">•</span>
+                            <span>A <code>GROUP BY</code> clause must be paired with a <code>WHERE</code> clause. (False)</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-slate-200">
+                    <h4 class="font-bold text-green-600 mb-2"><i class="fas fa-check-circle mr-2"></i>True Statements</h4>
+                    <ul class="space-y-3 text-slate-600">
+                        <li class="flex items-start">
+                            <span class="mr-2 text-green-500">•</span>
+                            <span>A <code>GROUP BY</code> can be present without a <code>HAVING</code> clause.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-2 text-green-500">•</span>
+                            <span>A <code>GROUP BY</code> can be present without a <code>WHERE</code> clause.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Query Structure Visualizer -->
+        <section class="bg-slate-800 text-white rounded-2xl p-8 shadow-xl">
+             <div class="flex items-center mb-6">
+                <div class="w-10 h-10 rounded-full bg-slate-600 flex items-center justify-center text-white mr-3">
+                    <i class="fas fa-code"></i>
+                </div>
+                <h2 class="text-2xl font-bold">4. Query Construction Order</h2>
+            </div>
+            <p class="mb-6 text-slate-300">The PDF emphasizes the correct order of clauses when building a complex aggregate query.</p>
+
+            <div class="space-y-4 font-mono text-lg">
+                <div class="flex">
+                    <span class="w-24 text-indigo-400 font-bold">SELECT</span>
+                    <span class="text-slate-200">state, city, SUM(salesamount)</span>
+                </div>
+                <div class="flex">
+                    <span class="w-24 text-indigo-400 font-bold">FROM</span>
+                    <span class="text-slate-200">sales</span>
+                </div>
+                <div class="flex opacity-50">
+                    <span class="w-24 text-indigo-400 font-bold">WHERE</span>
+                    <span class="text-slate-200">... (filters rows before grouping)</span>
+                </div>
+                <div class="flex bg-slate-700/50 p-2 -ml-2 rounded border-l-4 border-emerald-500">
+                    <span class="w-24 text-emerald-400 font-bold">GROUP BY</span>
+                    <span class="text-slate-200">state, city</span>
+                </div>
+                <div class="flex bg-slate-700/50 p-2 -ml-2 rounded border-l-4 border-pink-500 mt-2">
+                    <span class="w-24 text-pink-400 font-bold">HAVING</span>
+                    <span class="text-slate-200">SUM(salesamount) >= 50000</span>
+                </div>
+            </div>
+            <p class="mt-6 text-sm text-slate-400 italic">
+                Note: The <code>HAVING</code> clause filters the results generated by the <code>GROUP BY</code>.
+            </p>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-200 py-8 mt-12">
+        <div class="container mx-auto px-4 text-center text-slate-600">
+            <p class="mb-2">Generated based on "3.3 Construct and analyze queries that aggregate data".</p>
+            <p class="text-xs">Always verify syntax against your specific database environment.</p>
+        </div>
+    </footer>
+</body>
+</html>
