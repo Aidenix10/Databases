@@ -12,6 +12,8 @@ https://aidenix10.github.io/Databases/4.1%20Construct%20and%20analyze%20INSERT%2
 
 https://aidenix10.github.io/Databases/4.2%20Construct%20and%20analyze%20UPDATE%20statements.html
 
+https://aidenix10.github.io/Databases/4.3%20Construct%20and%20analyze%20DELETE%20statements.html
+
 
 misc  
 https://aidenix10.github.io/Databases/BDO%20Cards%20Fees%20and%20Charges.html
