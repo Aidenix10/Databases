@@ -38,8 +38,10 @@
                 SQL<span class="text-indigo-600">Simple</span>
             </h1>
             <nav class="hidden md:flex space-x-6 text-sm font-medium text-slate-500">
-                <a href="#joins" class="hover:text-indigo-600 transition-colors">Joins (The Party)</a>
-                <a href="#sets" class="hover:text-pink-600 transition-colors">Sets (The Legos)</a>
+                <a href="#joins" class="hover:text-indigo-600 transition-colors">Joins</a>
+                <a href="#unions" class="hover:text-emerald-600 transition-colors">Unions</a>
+                <a href="#intersects" class="hover:text-blue-600 transition-colors">Intersects</a>
+                <a href="#cheatsheet" class="hover:text-amber-600 transition-colors">Cheat Sheet</a>
             </nav>
         </div>
     </header>
@@ -65,8 +67,8 @@
                     </svg>
                 </div>
                 <div>
-                    <h3 class="text-2xl font-bold text-slate-900">Types of Joins</h3>
-                    <p class="text-slate-500">Connecting lists side-by-side (The "Party" Analogies)</p>
+                    <h3 class="text-2xl font-bold text-slate-900">1. Joins (Side-by-Side)</h3>
+                    <p class="text-slate-500">Connecting lists based on a relationship (e.g., Friends).</p>
                 </div>
             </div>
 
@@ -81,7 +83,7 @@
                     <div class="space-y-3">
                         <p class="font-medium text-slate-800">Keep only rows that match in <strong>both</strong> lists.</p>
                         <p class="text-sm text-slate-600 leading-relaxed">
-                            <strong>The Analogy:</strong> "The Mutual Friends Party." You only get in if you are on the Left List <strong>AND</strong> the Right List. If you are only on one list, you stay out.
+                            <strong>The Analogy:</strong> "The Mutual Friends Party." You only get in if you are on the Left List <strong>AND</strong> the Right List.
                         </p>
                     </div>
                 </div>
@@ -95,7 +97,7 @@
                     <div class="space-y-3">
                         <p class="font-medium text-slate-800">Keep everything from the Left list.</p>
                         <p class="text-sm text-slate-600 leading-relaxed">
-                            <strong>The Analogy:</strong> Imagine a party where everyone on the <span class="text-indigo-600 font-bold">Left List</span> is a VIP. They get in no matter what. If they have a friend on the Right list, the friend comes too. If not, they enter alone.
+                            <strong>The Analogy:</strong> Everyone on the <span class="text-indigo-600 font-bold">Left List</span> gets in. If they have a friend on the Right, the friend comes too.
                         </p>
                     </div>
                 </div>
@@ -109,7 +111,7 @@
                     <div class="space-y-3">
                         <p class="font-medium text-slate-800">Keep everything from the Right list.</p>
                         <p class="text-sm text-slate-600 leading-relaxed">
-                            <strong>The Analogy:</strong> The opposite of the Left Join. Everyone on the <span class="text-purple-600 font-bold">Right List</span> is a VIP. They get in automatically. If they have a friend on the Left, great! If not, they still get in.
+                            <strong>The Analogy:</strong> Everyone on the <span class="text-purple-600 font-bold">Right List</span> gets in. If they have a friend on the Left, great!
                         </p>
                     </div>
                 </div>
@@ -123,13 +125,13 @@
                     <div class="space-y-3">
                         <p class="font-medium text-slate-800">Keep everything from both lists.</p>
                         <p class="text-sm text-slate-600 leading-relaxed">
-                            <strong>The Analogy:</strong> The "Everyone is Invited" party. Everyone from the Left comes. Everyone from the Right comes. If they match, they stand together. If not, they stand alone. Nobody is left out.
+                            <strong>The Analogy:</strong> "Everyone is Invited." Left comes, Right comes. If they match, they stand together. If not, they stand alone.
                         </p>
                     </div>
                 </div>
 
-                 <!-- Card: Self Join -->
-                 <div class="glass-card bg-white rounded-2xl p-6 border-l-4 border-slate-400">
+                <!-- Card: Self Join -->
+                <div class="glass-card bg-white rounded-2xl p-6 border-l-4 border-slate-400">
                     <div class="flex justify-between items-start mb-4">
                         <h4 class="text-xl font-bold text-slate-900">Self Join</h4>
                         <span class="px-2 py-1 bg-slate-100 text-slate-600 text-xs font-bold uppercase rounded">Mirror</span>
@@ -137,7 +139,7 @@
                     <div class="space-y-3">
                         <p class="font-medium text-slate-800">Comparing a list to itself.</p>
                         <p class="text-sm text-slate-600 leading-relaxed">
-                            <strong>The Analogy:</strong> You have a list of students. You want to find pairs who live in the same city. You aren't bringing in a second list; you are looking for connections inside the <em>same</em> group.
+                            <strong>The Analogy:</strong> Finding pairs inside the same group (e.g., employees who live in the same city as their boss).
                         </p>
                     </div>
                 </div>
@@ -149,9 +151,9 @@
                         <span class="px-2 py-1 bg-amber-50 text-amber-600 text-xs font-bold uppercase rounded">Cross Join</span>
                     </div>
                     <div class="space-y-3">
-                        <p class="font-medium text-slate-800">Combine every row from Left with every row from Right.</p>
+                        <p class="font-medium text-slate-800">Every possible combination.</p>
                         <p class="text-sm text-slate-600 leading-relaxed">
-                            <strong>The Analogy:</strong> "The Mix & Match." Imagine you have 3 shirts and 2 pairs of pants. You try every shirt with every pair of pants to see every possible outfit. It creates a massive list of combinations!
+                            <strong>The Analogy:</strong> "Mix & Match." Every shirt paired with every pair of pants.
                         </p>
                     </div>
                 </div>
@@ -161,18 +163,24 @@
 
         <hr class="border-slate-200">
 
-        <!-- Section 2: SETS -->
-        <section id="sets" class="scroll-mt-24">
-            <div class="flex items-center space-x-4 mb-8">
+        <!-- Section 2: UNIONS -->
+        <section id="unions" class="scroll-mt-24">
+            <div class="flex items-center space-x-4 mb-4">
                 <div class="p-3 bg-emerald-100 rounded-lg text-emerald-600">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
                     </svg>
                 </div>
                 <div>
-                    <h3 class="text-2xl font-bold text-slate-900">Combining Data</h3>
-                    <p class="text-slate-500">Stacking lists on top of each other (The "Lego" Analogies)</p>
+                    <h3 class="text-2xl font-bold text-slate-900">2. Unions (The Aggregators)</h3>
+                    <p class="text-slate-500">Use this when you want to <strong>stack</strong> lists on top of each other.</p>
                 </div>
+            </div>
+
+            <div class="bg-emerald-50 border-l-4 border-emerald-500 p-4 mb-6 rounded-r-lg">
+                <p class="text-emerald-900 text-sm">
+                    <strong>Think:</strong> "I have a list of Apples and a list of Oranges. I want one big list of Fruit."
+                </p>
             </div>
 
             <div class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
@@ -180,64 +188,157 @@
                     <table class="w-full text-left border-collapse">
                         <thead>
                             <tr class="bg-slate-50 border-b border-slate-200">
-                                <th class="p-5 text-sm font-semibold tracking-wide text-slate-500 uppercase">Term</th>
-                                <th class="p-5 text-sm font-semibold tracking-wide text-slate-500 uppercase">Definition</th>
-                                <th class="p-5 text-sm font-semibold tracking-wide text-slate-500 uppercase">The Lego Analogy</th>
+                                <th class="p-5 text-sm font-semibold tracking-wide text-slate-500 uppercase w-1/4">Command</th>
+                                <th class="p-5 text-sm font-semibold tracking-wide text-slate-500 uppercase w-1/4">Logic</th>
+                                <th class="p-5 text-sm font-semibold tracking-wide text-slate-500 uppercase w-1/2">The Lego Analogy</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-100">
-                            
                             <!-- Union -->
-                            <tr class="hover:bg-slate-50 transition-colors group">
+                            <tr class="hover:bg-slate-50 transition-colors">
                                 <td class="p-5">
-                                    <span class="font-bold text-emerald-600 group-hover:text-emerald-700">Union</span>
-                                    <div class="text-xs text-slate-400 mt-1">No Duplicates</div>
+                                    <span class="font-bold text-emerald-600">Union</span>
+                                    <div class="text-xs text-slate-400 mt-1">Clean List</div>
                                 </td>
-                                <td class="p-5 text-slate-700">Combine two lists, remove duplicates.</td>
-                                <td class="p-5 text-sm text-slate-600 leading-relaxed">
+                                <td class="p-5 text-slate-700">Combine + Remove Duplicates</td>
+                                <td class="p-5 text-sm text-slate-600">
                                     You dump two buckets of Legos. If you find two identical red bricks, you throw one away and keep just one.
                                 </td>
                             </tr>
-
                             <!-- Union All -->
-                            <tr class="hover:bg-slate-50 transition-colors group">
+                            <tr class="hover:bg-slate-50 transition-colors">
                                 <td class="p-5">
-                                    <span class="font-bold text-emerald-600 group-hover:text-emerald-700">Union All</span>
-                                    <div class="text-xs text-slate-400 mt-1">Keep All</div>
+                                    <span class="font-bold text-emerald-600">Union All</span>
+                                    <div class="text-xs text-slate-400 mt-1">Raw List</div>
                                 </td>
-                                <td class="p-5 text-slate-700">Combine two lists, keep everything.</td>
-                                <td class="p-5 text-sm text-slate-600 leading-relaxed">
+                                <td class="p-5 text-slate-700">Combine + Keep Everything</td>
+                                <td class="p-5 text-sm text-slate-600">
                                     You dump two buckets of Legos and keep the pile exactly as it is. If you have five identical red bricks, you keep all five.
                                 </td>
                             </tr>
-
-                            <!-- Intersect -->
-                            <tr class="hover:bg-slate-50 transition-colors group">
-                                <td class="p-5">
-                                    <span class="font-bold text-blue-600 group-hover:text-blue-700">Intersect</span>
-                                    <div class="text-xs text-slate-400 mt-1">Shared Only</div>
-                                </td>
-                                <td class="p-5 text-slate-700">Find items appearing in <strong>both</strong> lists.</td>
-                                <td class="p-5 text-sm text-slate-600 leading-relaxed">
-                                    You look at both buckets. You only pick out the pieces that exist in Bucket A AND Bucket B.
-                                </td>
-                            </tr>
-
-                             <!-- Join -->
-                             <tr class="hover:bg-slate-50 transition-colors group">
-                                <td class="p-5">
-                                    <span class="font-bold text-slate-700 group-hover:text-slate-900">Join</span>
-                                    <div class="text-xs text-slate-400 mt-1">General</div>
-                                </td>
-                                <td class="p-5 text-slate-700">Connecting data side-by-side.</td>
-                                <td class="p-5 text-sm text-slate-600 leading-relaxed">
-                                    <strong>Sticking two stickers together.</strong> You have a sticker with a name and another with a grade. You stick them together because they belong to the same person.
-                                </td>
-                            </tr>
-
                         </tbody>
                     </table>
                 </div>
+            </div>
+        </section>
+
+
+        <!-- Section 3: INTERSECTS -->
+        <section id="intersects" class="scroll-mt-24">
+            <div class="flex items-center space-x-4 mb-4">
+                <div class="p-3 bg-blue-100 rounded-lg text-blue-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-bold text-slate-900">3. Intersects (The Matchmakers)</h3>
+                    <p class="text-slate-500">Use this when you want to find <strong>matches</strong> between lists.</p>
+                </div>
+            </div>
+
+            <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6 rounded-r-lg">
+                <p class="text-blue-900 text-sm">
+                    <strong>Think:</strong> "I have a list of Students and a list of Athletes. Who is on BOTH lists?"
+                </p>
+            </div>
+
+            <div class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-50 border-b border-slate-200">
+                                <th class="p-5 text-sm font-semibold tracking-wide text-slate-500 uppercase w-1/4">Command</th>
+                                <th class="p-5 text-sm font-semibold tracking-wide text-slate-500 uppercase w-1/4">Logic</th>
+                                <th class="p-5 text-sm font-semibold tracking-wide text-slate-500 uppercase w-1/2">The Lego Analogy</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            <!-- Intersect -->
+                            <tr class="hover:bg-slate-50 transition-colors">
+                                <td class="p-5">
+                                    <span class="font-bold text-blue-600">Intersect</span>
+                                    <div class="text-xs text-slate-400 mt-1">Shared Only</div>
+                                </td>
+                                <td class="p-5 text-slate-700">Match + Remove Duplicates</td>
+                                <td class="p-5 text-sm text-slate-600">
+                                    You look at both buckets. You only pick out the pieces that exist in Bucket A AND Bucket B.
+                                </td>
+                            </tr>
+                            <!-- Intersect All -->
+                            <tr class="hover:bg-slate-50 transition-colors">
+                                <td class="p-5">
+                                    <span class="font-bold text-blue-600">Intersect All</span>
+                                    <div class="text-xs text-slate-400 mt-1">Shared w/ Dups</div>
+                                </td>
+                                <td class="p-5 text-slate-700">Match + Keep Duplicates</td>
+                                <td class="p-5 text-sm text-slate-600">
+                                    You check both buckets. If Bucket A has 3 red bricks and Bucket B has 2, you keep the 2 that match in both places.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Section 3: Cheat Sheet -->
+        <section id="cheatsheet" class="scroll-mt-24 pb-20">
+             <div class="mt-20 flex items-center space-x-4 mb-8">
+                <div class="p-3 bg-amber-100 rounded-lg text-amber-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-bold text-slate-900">Cheat Sheet</h3>
+                    <p class="text-slate-500">When should you actually use these?</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <!-- Use Union When -->
+                <div class="p-6 bg-emerald-50 rounded-2xl border border-emerald-100">
+                    <h4 class="font-bold text-emerald-800 text-lg mb-3">Use <span class="uppercase">Union</span> when:</h4>
+                    <p class="text-sm text-slate-700 mb-2">You need a <span class="font-bold">Clean List</span>.</p>
+                    <ul class="list-disc list-inside text-sm text-slate-600 space-y-1">
+                        <li><strong>Example:</strong> Mailing Lists.</li>
+                        <li><strong>Why?</strong> You don't want to email the same person twice just because they signed up twice.</li>
+                    </ul>
+                </div>
+
+                <!-- Use Union ALL When -->
+                <div class="p-6 bg-emerald-50 rounded-2xl border border-emerald-100">
+                    <h4 class="font-bold text-emerald-800 text-lg mb-3">Use <span class="uppercase">Union All</span> when:</h4>
+                    <p class="text-sm text-slate-700 mb-2">You need <span class="font-bold">Total Accuracy</span> or Speed.</p>
+                    <ul class="list-disc list-inside text-sm text-slate-600 space-y-1">
+                        <li><strong>Example:</strong> Bank Statements.</li>
+                        <li><strong>Why?</strong> If you deposit $5 twice, you want to see it twice. You don't want the bank to merge them!</li>
+                    </ul>
+                </div>
+
+                <!-- Use Intersect When -->
+                <div class="p-6 bg-blue-50 rounded-2xl border border-blue-100">
+                    <h4 class="font-bold text-blue-800 text-lg mb-3">Use <span class="uppercase">Intersect</span> when:</h4>
+                    <p class="text-sm text-slate-700 mb-2">You need to find <span class="font-bold">Common Ground</span>.</p>
+                    <ul class="list-disc list-inside text-sm text-slate-600 space-y-1">
+                        <li><strong>Example:</strong> Marketing.</li>
+                        <li><strong>Why?</strong> "Which customers bought an iPhone AND an iPad?" You don't care how many, just who.</li>
+                    </ul>
+                </div>
+
+                <!-- Use Intersect ALL When -->
+                <div class="p-6 bg-blue-50 rounded-2xl border border-blue-100">
+                    <h4 class="font-bold text-blue-800 text-lg mb-3">Use <span class="uppercase">Intersect All</span> when:</h4>
+                    <p class="text-sm text-slate-700 mb-2">You need <span class="font-bold">Inventory Matching</span>.</p>
+                    <ul class="list-disc list-inside text-sm text-slate-600 space-y-1">
+                        <li><strong>Example:</strong> Card Trading.</li>
+                        <li><strong>Why?</strong> I have 2 Charizards, you have 3. We have exactly 2 cards in common to trade. Quantity matters.</li>
+                    </ul>
+                </div>
+
             </div>
         </section>
 
