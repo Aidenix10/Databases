@@ -37,6 +37,15 @@
             color: #4f46e5; /* Indigo-600 */
             border-bottom: 2px solid #4f46e5;
         }
+        
+        /* Custom scrollbar for nav */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
@@ -63,6 +72,9 @@
                 </button>
                 <button onclick="switchTab('keywords')" class="nav-btn pb-4 text-sm font-medium text-slate-500 hover:text-slate-800 transition-colors whitespace-nowrap">
                     Keywords
+                </button>
+                 <button onclick="switchTab('removal')" class="nav-btn pb-4 text-sm font-medium text-slate-500 hover:text-slate-800 transition-colors whitespace-nowrap">
+                    Data Removal
                 </button>
                 <button onclick="switchTab('cheatsheet')" class="nav-btn pb-4 text-sm font-medium text-slate-500 hover:text-slate-800 transition-colors whitespace-nowrap">
                     Cheat Sheet
@@ -252,8 +264,68 @@
             </div>
         </section>
 
+        <!-- TAB 5: REMOVAL -->
+        <section id="removal" class="tab-content space-y-8">
+            <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg">
+                <h3 class="font-bold text-red-900">Data Removal</h3>
+                <p class="text-red-800 text-sm">Be careful! These commands destroy data.</p>
+            </div>
 
-        <!-- TAB 5: CHEAT SHEET -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- DELETE -->
+                <div class="glass-card bg-white rounded-2xl p-6 border-l-4 border-red-500">
+                    <div class="flex justify-between items-start mb-4">
+                        <h4 class="text-xl font-bold text-red-900">DELETE</h4>
+                        <span class="bg-red-50 text-red-600 text-xs font-bold px-2 py-1 rounded uppercase">DML (Slow/Safe)</span>
+                    </div>
+                    <div class="space-y-3">
+                        <p class="font-medium text-slate-800">Removes records (rows) in a table.</p>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            <strong>Key Feature:</strong> You CAN use a <code class="bg-slate-100 px-1 rounded">WHERE</code> clause.
+                        </p>
+                         <p class="text-sm text-slate-600 leading-relaxed">
+                            <strong>Analogy:</strong> <span class="font-bold text-red-600">The Surgeon.</span> Goes row by row, carefully removing specific parts. It logs every cut it makes.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- TRUNCATE -->
+                <div class="glass-card bg-white rounded-2xl p-6 border-l-4 border-orange-500">
+                    <div class="flex justify-between items-start mb-4">
+                        <h4 class="text-xl font-bold text-orange-900">TRUNCATE TABLE</h4>
+                        <span class="bg-orange-50 text-orange-600 text-xs font-bold px-2 py-1 rounded uppercase">DDL (Fast/Destructive)</span>
+                    </div>
+                    <div class="space-y-3">
+                        <p class="font-medium text-slate-800">Removes ALL data from a table without logging individual deletions.</p>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            <strong>Key Feature:</strong> You CANNOT use <code class="bg-slate-100 px-1 rounded">WHERE</code>. It deletes everything.
+                        </p>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            <strong>Analogy:</strong> <span class="font-bold text-orange-600">The Bulldozer.</span> It doesn't check the rows; it just destroys the whole page and gives you a blank one.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- MYTH BUSTER: REMOVE -->
+                <div class="md:col-span-2 glass-card bg-slate-100 rounded-2xl p-6 border border-slate-300 opacity-80">
+                    <div class="flex items-center space-x-3 mb-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                        </svg>
+                        <h4 class="text-lg font-bold text-slate-700">Myth Buster: "REMOVE"</h4>
+                    </div>
+                    <p class="text-slate-600">
+                        <span class="font-bold text-red-600">FALSE STATEMENT:</span> "REMOVE marks the contents of a table for deallocation."
+                    </p>
+                    <p class="text-sm text-slate-500 mt-2 italic">
+                        "REMOVE" is not a standard SQL command. Use DELETE or TRUNCATE instead.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- TAB 6: CHEAT SHEET -->
         <section id="cheatsheet" class="tab-content space-y-8">
             <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-lg">
                 <h3 class="font-bold text-amber-900">Quick Decision Guide</h3>
@@ -284,6 +356,12 @@
                     <p class="text-slate-800 font-bold text-2xl mb-1">WHERE</p>
                     <p class="text-slate-500 text-sm">"Show me only the red shoes."</p>
                 </div>
+
+                <div class="p-6 bg-white rounded-xl border border-slate-200 shadow-sm">
+                    <h4 class="font-bold text-red-600 mb-2">Need to Clear Everything?</h4>
+                    <p class="text-slate-800 font-bold text-2xl mb-1">TRUNCATE</p>
+                    <p class="text-slate-500 text-sm">Wipes the table clean instantly. (Use DELETE for specific rows).</p>
+                </div>
             </div>
         </section>
 
@@ -307,6 +385,9 @@
                 btn.classList.remove('active');
                 btn.classList.remove('text-indigo-600');
                 btn.classList.add('text-slate-500');
+                // Remove border from all
+                btn.classList.remove('border-b-2'); 
+                btn.classList.remove('border-indigo-600');
             });
 
             // Highlight active button (Matches the onclick logic)
@@ -316,6 +397,8 @@
                 activeBtn.classList.add('active');
                 activeBtn.classList.remove('text-slate-500');
                 activeBtn.classList.add('text-indigo-600');
+                activeBtn.classList.add('border-b-2');
+                activeBtn.classList.add('border-indigo-600');
             }
         }
     </script>
